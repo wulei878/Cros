@@ -149,4 +149,3 @@ open class HUD {
         hud.hide(animated: animated)
     }
 }
-

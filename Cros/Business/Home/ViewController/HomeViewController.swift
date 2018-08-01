@@ -13,6 +13,7 @@ public class HomeViewController: UIViewController {
     // MARK: - life cycle
     override public func viewDidLoad() {
         super.viewDidLoad()
+        self.present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
         view.backgroundColor = .white
         view.addSubview(collectionView)
         collectionView.delegate = self
@@ -78,7 +79,7 @@ extension HomeViewController: HomeCollectionViewModelDelegate {
     func getFileListCompleted(_ errorCode: Int, errorMessage: String?) {
         collectionView.mj_header.endRefreshing()
         guard errorCode == 0 else {
-            HUD.showText(errorMessage as? String ?? "", in: view)
+            HUD.showText(errorMessage ?? "", in: view)
             return
         }
         for element in homeCollectionViewModel.fileList {

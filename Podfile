@@ -9,6 +9,7 @@ target 'Cros' do
   pod 'SnapKit','4.0.0'
   pod 'MJRefresh','3.1.15.3'
   pod 'MBProgressHUD','1.1.0'
+  pod 'IQKeyboardManagerSwift','6.1.1'
   # Pods for Cros
 
 end
