@@ -8,7 +8,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (= 4.7.3)
-  - IQKeyboardManagerSwift
+  - IQKeyboardManagerSwift (= 6.1.1)
   - Kingfisher (= 4.8.1)
   - MBProgressHUD (= 1.1.0)
   - MJRefresh (= 3.1.15.3)
@@ -31,6 +31,6 @@ SPEC CHECKSUMS:
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 771496edd19c377533340b921e4042ffc0247f68
+PODFILE CHECKSUM: bca7342e0ba0694b1ef21a887d6223a85d94ad03
 
 COCOAPODS: 1.5.3

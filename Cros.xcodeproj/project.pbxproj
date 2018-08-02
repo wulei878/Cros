@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A77E9912113444100C06B90 /* UIButtonExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9902113444100C06B90 /* UIButtonExt.swift */; };
+		3A77E9932113514B00C06B90 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */; };
+		3A77E99821136F4600C06B90 /* ForgotPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E99721136F4600C06B90 /* ForgotPwdViewController.swift */; };
+		3A77E99A2113750700C06B90 /* VerifyPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9992113750700C06B90 /* VerifyPhoneViewController.swift */; };
+		3A77E99C211378A000C06B90 /* VerifyCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E99B211378A000C06B90 /* VerifyCodeViewController.swift */; };
 		5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */; };
 		5AF5929B211152B7005C9F3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5929A211152B7005C9F3E /* AppDelegate.swift */; };
 		5AF592A2211152B9005C9F3E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AF592A1211152B9005C9F3E /* Assets.xcassets */; };
@@ -32,6 +37,11 @@
 /* Begin PBXFileReference section */
 		1B658E1B7A063FB302630298 /* Pods-Cros.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cros.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cros/Pods-Cros.release.xcconfig"; sourceTree = "<group>"; };
 		207A73707D9ABDEE01F274E2 /* Pods_Cros.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cros.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A77E9902113444100C06B90 /* UIButtonExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExt.swift; sourceTree = "<group>"; };
+		3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
+		3A77E99721136F4600C06B90 /* ForgotPwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPwdViewController.swift; sourceTree = "<group>"; };
+		3A77E9992113750700C06B90 /* VerifyPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPhoneViewController.swift; sourceTree = "<group>"; };
+		3A77E99B211378A000C06B90 /* VerifyCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyCodeViewController.swift; sourceTree = "<group>"; };
 		5AD9ABF32112D69400BB5AAA /* Cros-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cros-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AD9ABF42112D69400BB5AAA /* GraphCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphCodeView.h; sourceTree = "<group>"; };
 		5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphCodeView.m; sourceTree = "<group>"; };
@@ -184,6 +194,9 @@
 			children = (
 				5AF592D421115BD3005C9F3E /* PhoneLoginViewController.swift */,
 				5AF592D621115E3E005C9F3E /* RegisterViewController.swift */,
+				3A77E99721136F4600C06B90 /* ForgotPwdViewController.swift */,
+				3A77E9992113750700C06B90 /* VerifyPhoneViewController.swift */,
+				3A77E99B211378A000C06B90 /* VerifyCodeViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -202,6 +215,8 @@
 				5AF592DC21119B37005C9F3E /* UIViewExt.swift */,
 				5AF592DE21119F3E005C9F3E /* UIColorExt.swift */,
 				5AF592E12111AB2C005C9F3E /* UIImageExt.swift */,
+				3A77E9902113444100C06B90 /* UIButtonExt.swift */,
+				3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -352,17 +367,22 @@
 			files = (
 				5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */,
 				5AF592DD21119B37005C9F3E /* UIViewExt.swift in Sources */,
+				3A77E99C211378A000C06B90 /* VerifyCodeViewController.swift in Sources */,
 				5AF592CD21115425005C9F3E /* HomeCollectionViewCellModel.swift in Sources */,
 				5AF592D321115947005C9F3E /* HUD.swift in Sources */,
 				5AF592B3211153D2005C9F3E /* WebView.swift in Sources */,
 				5AF592D721115E3E005C9F3E /* RegisterViewController.swift in Sources */,
 				5AF5929B211152B7005C9F3E /* AppDelegate.swift in Sources */,
+				3A77E9912113444100C06B90 /* UIButtonExt.swift in Sources */,
 				5AF592B2211153D2005C9F3E /* RefreshHeader.swift in Sources */,
 				5AF592D021115425005C9F3E /* HomeViewController.swift in Sources */,
 				5AF592D521115BD3005C9F3E /* PhoneLoginViewController.swift in Sources */,
+				3A77E99821136F4600C06B90 /* ForgotPwdViewController.swift in Sources */,
 				5AF592CF21115425005C9F3E /* HomeCollectionView.swift in Sources */,
+				3A77E99A2113750700C06B90 /* VerifyPhoneViewController.swift in Sources */,
 				5AF592AE211153B3005C9F3E /* CRORequest.swift in Sources */,
 				5AF592DA21115F02005C9F3E /* TabBarViewController.swift in Sources */,
+				3A77E9932113514B00C06B90 /* UIViewControllerExt.swift in Sources */,
 				5AF592CC21115425005C9F3E /* HomeCollectionViewModel.swift in Sources */,
 				5AF592E22111AB2C005C9F3E /* UIImageExt.swift in Sources */,
 				5AF592DF21119F3E005C9F3E /* UIColorExt.swift in Sources */,

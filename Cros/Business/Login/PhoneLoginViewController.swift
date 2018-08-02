@@ -9,7 +9,8 @@
 import UIKit
 
 let passwordMaxLength = 20
-let PhoneNumberMaxLength = 11
+let phoneNumberMaxLength = 11
+let imageCodeMaxLength = 4
 class PhoneLoginViewController: UIViewController {
 
     // MARK: - life cycle
@@ -18,6 +19,7 @@ class PhoneLoginViewController: UIViewController {
         view.backgroundColor = .white
         addBarButtonItems()
         addViews()
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -43,21 +45,26 @@ class PhoneLoginViewController: UIViewController {
     }
 
     func addViews() {
-        view.addSubview(titleLbl)
-        view.addSubview(phoneTextField)
-        view.addSubview(psdTextField)
-        view.addSubview(forgetPsdBtn)
-        view.addSubview(loginBtn)
-        view.addSubview(codeLoginBtn)
+        let container = UIView()
+        view.addSubview(container)
+        container.addSubview(titleLbl)
+        container.addSubview(phoneTextField)
+        container.addSubview(pwdTextField)
+        container.addSubview(forgetPwdBtn)
+        container.addSubview(loginBtn)
+        container.addSubview(codeLoginBtn)
         let firstLine = UIView.bottomLine()
         let secondLine = UIView.bottomLine()
-        view.addSubview(firstLine)
-        view.addSubview(secondLine)
-        psdTextField.rightView = showPsdBtn
-        showPsdBtn.addTarget(self, action: #selector(showOrHidePsd), for: .touchUpInside)
+        container.addSubview(firstLine)
+        container.addSubview(secondLine)
+        pwdTextField.rightView = showPwdBtn
+        showPwdBtn.addTarget(self, action: #selector(showOrHidePwd), for: .touchUpInside)
+        container.snp.makeConstraints { (make) in
+            make.edges.equalTo(0)
+        }
         titleLbl.snp.makeConstraints { (make) in
             make.top.equalTo(safeAreaInsets.top + 46)
-            make.centerX.equalTo(view)
+            make.centerX.equalTo(container)
         }
         phoneTextField.snp.makeConstraints { (make) in
             make.left.equalTo(20)
@@ -69,15 +76,15 @@ class PhoneLoginViewController: UIViewController {
             make.left.right.equalTo(phoneTextField)
             make.top.equalTo(phoneTextField.snp.bottom)
         }
-        psdTextField.snp.makeConstraints { (make) in
+        pwdTextField.snp.makeConstraints { (make) in
             make.left.right.height.equalTo(phoneTextField)
             make.top.equalTo(firstLine.snp.bottom)
         }
         secondLine.snp.makeConstraints { (make) in
             make.left.right.equalTo(phoneTextField)
-            make.top.equalTo(psdTextField.snp.bottom)
+            make.top.equalTo(pwdTextField.snp.bottom)
         }
-        forgetPsdBtn.snp.makeConstraints { (make) in
+        forgetPwdBtn.snp.makeConstraints { (make) in
             make.top.equalTo(secondLine.snp.bottom).offset(5)
             make.right.equalTo(phoneTextField)
             make.width.equalTo(75)
@@ -93,12 +100,14 @@ class PhoneLoginViewController: UIViewController {
             make.top.equalTo(loginBtn.snp.bottom).offset(15)
             make.width.equalTo(100)
             make.height.equalTo(44)
-            make.centerX.equalTo(view)
+            make.centerX.equalTo(container)
         }
         phoneTextField.delegate = self
-        psdTextField.delegate = self
+        pwdTextField.delegate = self
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+        forgetPwdBtn.addTarget(self, action: #selector(gotoForgotPwdVC), for: .touchUpInside)
+        codeLoginBtn.addTarget(self, action: #selector(gotoVerifyPhoneVC), for: .touchUpInside)
     }
 
     func addNotifications() {
@@ -118,13 +127,21 @@ class PhoneLoginViewController: UIViewController {
         navigationController?.dismiss(animated: true, completion: nil)
     }
 
-    @objc func showOrHidePsd() {
-        psdTextField.isSecureTextEntry = !psdTextField.isSecureTextEntry
-        showPsdBtn.setImage(psdTextField.isSecureTextEntry ? #imageLiteral(resourceName: "hide_password") : #imageLiteral(resourceName: "show_password"), for: .normal)
+    @objc func showOrHidePwd() {
+        pwdTextField.isSecureTextEntry = !pwdTextField.isSecureTextEntry
+        showPwdBtn.setImage(pwdTextField.isSecureTextEntry ? #imageLiteral(resourceName: "hide_password") : #imageLiteral(resourceName: "show_password"), for: .normal)
     }
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+
+    @objc func gotoForgotPwdVC() {
+        navigationController?.pushViewController(ForgotPwdViewController(), animated: true)
+    }
+
+    @objc func gotoVerifyPhoneVC() {
+        navigationController?.pushViewController(VerifyPhoneViewController(), animated: true)
     }
 
     // MARK: - getter and setter
@@ -140,9 +157,10 @@ class PhoneLoginViewController: UIViewController {
         textField.keyboardType = .numberPad
         textField.customType()
         textField.placeholder = "请输入手机号"
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
-    let psdTextField: UITextField = {
+    let pwdTextField: UITextField = {
         let textField = UITextField()
         textField.isSecureTextEntry = true
         textField.customType()
@@ -150,13 +168,13 @@ class PhoneLoginViewController: UIViewController {
         textField.placeholder = "请输入登录密码"
         return textField
     }()
-    let showPsdBtn: UIButton = {
+    let showPwdBtn: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "hide_password"), for: .normal)
         button.size = CGSize(width: 44, height: 44)
         return button
     }()
-    let forgetPsdBtn: UIButton = {
+    let forgetPwdBtn: UIButton = {
         let button = UIButton()
         button.setTitle("忘记密码？", for: .normal)
         button.setTitleColor(UIColor(rgb: 0x4a9eff), for: .normal)
@@ -180,8 +198,8 @@ class PhoneLoginViewController: UIViewController {
 // MARK: - delegate
 extension PhoneLoginViewController: UITextFieldDelegate {
     @objc func textFieldDidChange() {
-        let textField = psdTextField.isFirstResponder ? psdTextField : phoneTextField
-        let maxLength = psdTextField.isFirstResponder ? passwordMaxLength : PhoneNumberMaxLength
+        let textField = pwdTextField.isFirstResponder ? pwdTextField : phoneTextField
+        let maxLength = pwdTextField.isFirstResponder ? passwordMaxLength : phoneNumberMaxLength
         let lang = UITextInputMode().primaryLanguage
         if lang == "zh-Hans" {
             guard let selectedRange = textField.markedTextRange,
@@ -225,15 +243,12 @@ extension UIView {
     }
 }
 
-extension UIViewController {
-    var safeAreaInsets: UIEdgeInsets {
-        get {
-            if #available(iOS 11.0, *) {
-                let window = UIApplication.shared.keyWindow
-                return window?.safeAreaInsets ?? .zero
-            }
-            return .zero
-        }
+extension PhoneLoginViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard gestureRecognizer == navigationController?.interactivePopGestureRecognizer,
+            let count = navigationController?.viewControllers.count,
+            count > 1 else { return false }
+        return true
     }
 }
 
