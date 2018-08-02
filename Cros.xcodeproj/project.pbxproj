@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5AD9ABF22111EA3200BB5AAA /* GraphCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABF12111EA3200BB5AAA /* GraphCodeView.swift */; };
+		5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */; };
 		5AF5929B211152B7005C9F3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5929A211152B7005C9F3E /* AppDelegate.swift */; };
 		5AF592A2211152B9005C9F3E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AF592A1211152B9005C9F3E /* Assets.xcassets */; };
 		5AF592A5211152B9005C9F3E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AF592A3211152B9005C9F3E /* LaunchScreen.storyboard */; };
@@ -32,7 +32,9 @@
 /* Begin PBXFileReference section */
 		1B658E1B7A063FB302630298 /* Pods-Cros.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cros.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cros/Pods-Cros.release.xcconfig"; sourceTree = "<group>"; };
 		207A73707D9ABDEE01F274E2 /* Pods_Cros.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cros.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5AD9ABF12111EA3200BB5AAA /* GraphCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCodeView.swift; sourceTree = "<group>"; };
+		5AD9ABF32112D69400BB5AAA /* Cros-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cros-Bridging-Header.h"; sourceTree = "<group>"; };
+		5AD9ABF42112D69400BB5AAA /* GraphCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphCodeView.h; sourceTree = "<group>"; };
+		5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphCodeView.m; sourceTree = "<group>"; };
 		5AF59297211152B7005C9F3E /* Cros.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cros.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AF5929A211152B7005C9F3E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5AF592A1211152B9005C9F3E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				5AF592A1211152B9005C9F3E /* Assets.xcassets */,
 				5AF592A3211152B9005C9F3E /* LaunchScreen.storyboard */,
 				5AF592A6211152BA005C9F3E /* Info.plist */,
+				5AD9ABF32112D69400BB5AAA /* Cros-Bridging-Header.h */,
 			);
 			path = Cros;
 			sourceTree = "<group>";
@@ -121,10 +124,11 @@
 		5AF592AF211153D2005C9F3E /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				5AD9ABF42112D69400BB5AAA /* GraphCodeView.h */,
+				5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */,
 				5AF592B0211153D2005C9F3E /* RefreshHeader.swift */,
 				5AF592B1211153D2005C9F3E /* WebView.swift */,
 				5AF592D221115947005C9F3E /* HUD.swift */,
-				5AD9ABF12111EA3200BB5AAA /* GraphCodeView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -245,6 +249,7 @@
 				TargetAttributes = {
 					5AF59296211152B7005C9F3E = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 					};
 				};
 			};
@@ -345,8 +350,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */,
 				5AF592DD21119B37005C9F3E /* UIViewExt.swift in Sources */,
-				5AD9ABF22111EA3200BB5AAA /* GraphCodeView.swift in Sources */,
 				5AF592CD21115425005C9F3E /* HomeCollectionViewCellModel.swift in Sources */,
 				5AF592D321115947005C9F3E /* HUD.swift in Sources */,
 				5AF592B3211153D2005C9F3E /* WebView.swift in Sources */,
@@ -498,6 +503,7 @@
 			baseConfigurationReference = B705AC232440132CB2873D34 /* Pods-Cros.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D7LP79ESSD;
 				INFOPLIST_FILE = Cros/Info.plist;
@@ -508,6 +514,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.coin.wallet.Cros;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Cros/Cros-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -518,6 +526,7 @@
 			baseConfigurationReference = 1B658E1B7A063FB302630298 /* Pods-Cros.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D7LP79ESSD;
 				INFOPLIST_FILE = Cros/Info.plist;
@@ -528,6 +537,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.coin.wallet.Cros;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Cros/Cros-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

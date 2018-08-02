@@ -165,12 +165,7 @@ class PhoneLoginViewController: UIViewController {
     }()
     let loginBtn: UIButton = {
         let button = UIButton()
-        button.setTitle("登录", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.setBackgroundImage(UIImage(color: UIColor(rgb: 0x4a9eff)), for: .normal)
-        button.layer.cornerRadius = 4
-        button.clipsToBounds = true
+        button.customType("登录")
         return button
     }()
     let codeLoginBtn: UIButton = {
@@ -220,6 +215,14 @@ extension UIView {
         }
         return line
     }
+    class func verticalLine() -> UIView {
+        let line = UIView()
+        line.backgroundColor = UIColor(rgb: 0xf2f2f2)
+        line.snp.makeConstraints { (make) in
+            make.width.equalTo(1)
+        }
+        return line
+    }
 }
 
 extension UIViewController {
@@ -239,5 +242,17 @@ extension UINavigationController {
         navigationBar.barTintColor = .white
         navigationBar.setBackgroundImage(UIImage(color: .white), for: .any, barMetrics: .default)
         navigationBar.shadowImage = UIImage()
+    }
+}
+
+extension UIButton {
+    func customType(_ title: String) {
+        setTitle(title, for: .normal)
+        setTitleColor(.white, for: .normal)
+        titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        setBackgroundImage(UIImage(color: UIColor(rgb: 0x4a9eff)), for: .normal)
+        layer.cornerRadius = 4
+        clipsToBounds = true
+        height = 45
     }
 }
