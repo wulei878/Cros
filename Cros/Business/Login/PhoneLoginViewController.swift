@@ -11,6 +11,7 @@ import UIKit
 let passwordMaxLength = 20
 let phoneNumberMaxLength = 11
 let imageCodeMaxLength = 4
+let verifyCodeMaxLength = 6
 class PhoneLoginViewController: UIViewController {
 
     // MARK: - life cycle

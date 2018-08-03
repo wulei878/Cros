@@ -10,6 +10,7 @@ import UIKit
 
 class ForgotPwdViewController: UIViewController {
 
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "忘记密码"
@@ -120,6 +121,7 @@ class ForgotPwdViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+    // MARK: - event response
     @objc func showOrHidePwd(_ button: UIButton) {
         let textField = button == showPwdBtn ? pwdTextField : pwdConfirmTextField
         textField.isSecureTextEntry = !textField.isSecureTextEntry
@@ -130,6 +132,7 @@ class ForgotPwdViewController: UIViewController {
         view.endEditing(true)
     }
 
+    // MARK: - getter and setter
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false

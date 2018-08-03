@@ -10,12 +10,14 @@ import UIKit
 
 class VerifyPhoneViewController: UIViewController {
 
+    // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         addBackBtn()
         addViews()
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+        confirmBtn.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -66,10 +68,18 @@ class VerifyPhoneViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+    // MARK: - event response
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 
+    @objc func gotoNext() {
+        let vc = VerifyCodeViewController()
+        vc.phoneNum = "17600410403"
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    // MARK: - getter and setter
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
