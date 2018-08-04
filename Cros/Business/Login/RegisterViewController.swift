@@ -39,7 +39,9 @@ class RegisterViewController: UIViewController {
         scrollView.addSubview(container)
         scrollView.backgroundColor = .clear
         container.addSubview(phoneTextField)
+        container.addSubview(nickNameTextField)
         container.addSubview(pwdTextField)
+        container.addSubview(pwdConfirmTextField)
         container.addSubview(imageCodeTextField)
         container.addSubview(imageCodeView)
         container.addSubview(msgCodeTextField)
@@ -49,16 +51,18 @@ class RegisterViewController: UIViewController {
         container.addSubview(inviteCodeTextField)
         scrollView.addSubview(registerBtn)
         scrollView.addSubview(tipsLbl)
-        let firstLine = UIView.bottomLine()
-        let secondLine = UIView.bottomLine()
-        let thirdLine = UIView.bottomLine()
-        let forthLine = UIView.bottomLine()
-        [firstLine, secondLine, thirdLine, forthLine].forEach { (view) in
-            container.addSubview(view)
-            view.snp.makeConstraints({ (make) in
+        var firstLine: UIView!
+        for index in 1...6 {
+            let line = UIView.bottomLine()
+            container.addSubview(line)
+            line.snp.makeConstraints { (make) in
                 make.left.equalTo(15)
                 make.right.equalTo(-15)
-            })
+                make.top.equalTo(50 * index)
+            }
+            if index == 1 {
+                firstLine = line
+            }
         }
         scrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
@@ -70,21 +74,25 @@ class RegisterViewController: UIViewController {
         phoneTextField.snp.makeConstraints { (make) in
             make.top.equalTo(0)
             make.left.right.equalTo(firstLine)
-            make.height.equalTo(50)
+            make.height.equalTo(49)
         }
-        firstLine.snp.makeConstraints { (make) in
-            make.top.equalTo(phoneTextField.snp.bottom)
-        }
-        pwdTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(firstLine.snp.bottom)
+        nickNameTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(phoneTextField.snp.bottom).offset(1)
             make.left.right.equalTo(firstLine)
             make.height.equalTo(phoneTextField)
         }
-        secondLine.snp.makeConstraints { (make) in
-            make.top.equalTo(pwdTextField.snp.bottom)
+        pwdTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(nickNameTextField.snp.bottom).offset(1)
+            make.left.right.equalTo(firstLine)
+            make.height.equalTo(phoneTextField)
+        }
+        pwdConfirmTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(pwdTextField.snp.bottom).offset(1)
+            make.left.right.equalTo(firstLine)
+            make.height.equalTo(phoneTextField)
         }
         imageCodeTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(secondLine.snp.bottom)
+            make.top.equalTo(pwdConfirmTextField.snp.bottom).offset(1)
             make.left.equalTo(firstLine)
             make.height.equalTo(phoneTextField)
         }
@@ -95,11 +103,8 @@ class RegisterViewController: UIViewController {
             make.width.equalTo(95)
             make.height.equalTo(32)
         }
-        thirdLine.snp.makeConstraints { (make) in
-            make.top.equalTo(imageCodeTextField.snp.bottom)
-        }
         msgCodeTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(thirdLine.snp.bottom)
+            make.top.equalTo(imageCodeTextField.snp.bottom).offset(1)
             make.left.equalTo(firstLine)
             make.height.equalTo(phoneTextField)
         }
@@ -115,11 +120,8 @@ class RegisterViewController: UIViewController {
             make.height.equalTo(44)
             make.width.equalTo(80)
         }
-        forthLine.snp.makeConstraints { (make) in
-            make.top.equalTo(msgCodeTextField.snp.bottom)
-        }
         inviteCodeTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(forthLine.snp.bottom)
+            make.top.equalTo(msgCodeTextField.snp.bottom).offset(1)
             make.left.right.equalTo(firstLine)
             make.bottom.equalTo(0)
             make.height.equalTo(phoneTextField)
@@ -163,7 +165,15 @@ class RegisterViewController: UIViewController {
         textField.isSecureTextEntry = true
         textField.customType()
         textField.clearButtonMode = .whileEditing
-        textField.placeholder = "请设置密码"
+        textField.placeholder = "请输入密码"
+        return textField
+    }()
+    let pwdConfirmTextField: UITextField = {
+        let textField = UITextField()
+        textField.isSecureTextEntry = true
+        textField.customType()
+        textField.clearButtonMode = .whileEditing
+        textField.placeholder = "请输入确认密码"
         return textField
     }()
     let imageCodeTextField: UITextField = {
@@ -217,6 +227,13 @@ class RegisterViewController: UIViewController {
         label.attributedText = attrStr
         return label
     }()
+    let nickNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "请输入昵称"
+        textField.clearButtonMode = .whileEditing
+        textField.customType()
+        return textField
+    }()
 }
 
 // MARK: - delegate
@@ -233,6 +250,12 @@ extension RegisterViewController: UITextFieldDelegate {
         } else if imageCodeTextField.isFirstResponder {
             textField = imageCodeTextField
             maxLength = imageCodeMaxLength
+        } else if pwdConfirmTextField.isFirstResponder {
+            textField = pwdConfirmTextField
+            maxLength = passwordMaxLength
+        } else if nickNameTextField.isFirstResponder {
+            textField = nickNameTextField
+            maxLength = 20
         } else {
             return
         }

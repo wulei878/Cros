@@ -8,10 +8,10 @@
 import UIKit
 import SnapKit
 
-public class HomeViewController: UIViewController {
+class HomeViewController: UIViewController {
 
     // MARK: - life cycle
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
         view.backgroundColor = .white
@@ -50,27 +50,27 @@ public class HomeViewController: UIViewController {
 
 // MARK: - delegate
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = UIScreen.main.bounds.size.width / 2 - 10
         return CGSize(width: width, height: width)
     }
 }
 
 extension HomeViewController: UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell: HomeCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: HomeCollectionViewCell.self), for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
         let cellModel = homeCollectionViewCellModels[indexPath.row]
         cell.configData(title: cellModel.title, url: cellModel.coverImageURLString)
         return cell
     }
 
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return homeCollectionViewModel.fileList.count
     }
 }
 
 extension HomeViewController: UICollectionViewDelegate {
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let element = homeCollectionViewCellModels[indexPath.row]
     }
 }

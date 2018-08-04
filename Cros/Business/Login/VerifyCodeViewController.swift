@@ -13,7 +13,6 @@ class VerifyCodeViewController: UIViewController {
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        subTitleLbl.text = "已发送验证码到\n\(phoneNum)"
         addBackBtn()
         addViews()
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -25,11 +24,18 @@ class VerifyCodeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
+        timer = Timer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        if let timer = self.timer {
+            RunLoop.main.add(timer, forMode: .defaultRunLoopMode)
+            timer.fire()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        timer?.invalidate()
+        timer = nil
     }
 
     func addViews() {
@@ -91,6 +97,7 @@ class VerifyCodeViewController: UIViewController {
                     make.left.equalTo(preView.snp.right).offset(space)
                 }
             }
+            codeLabelViews.append(view)
             codeContainer.addSubview(view)
             preView = view
         }
@@ -109,8 +116,43 @@ class VerifyCodeViewController: UIViewController {
         codeTextField.becomeFirstResponder()
     }
 
+    @objc func updateTime() {
+        guard countDown > 0 else {
+            timer?.invalidate()
+            timer = nil
+            return
+        }
+        countDown -= 1
+    }
+
     // MARK: - getter and setter
-    var phoneNum = ""
+    var timer: Timer?
+    var countDown = 60 {
+        didSet {
+            let str = countDown == 0 ? "重新发送" : "重新发送（\(countDown)）"
+            resendBtn.setTitle(str, for: .normal)
+            resendBtn.isEnabled = countDown == 0
+        }
+    }
+    var phoneNum = "" {
+        didSet {
+            var startIndex = phoneNum.startIndex
+            var result = ""
+            let num = String(phoneNum.reversed())
+            while startIndex < num.endIndex {
+                guard let nextIndex = num.index(startIndex, offsetBy: 4, limitedBy: num.endIndex) else {
+                    result.append(String(num[startIndex..<num.endIndex]))
+                    break
+                }
+                result.append(String(num[startIndex..<nextIndex]))
+                result.append(" ")
+                startIndex = nextIndex
+            }
+            result = String(result.reversed())
+            subTitleLbl.text = "已发送验证码到\n"+result
+        }
+    }
+    var codeLabelViews = [VerifyCodeView]()
 
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -131,6 +173,7 @@ class VerifyCodeViewController: UIViewController {
         label.textColor = UIColor(rgb: 0x24323d)
         label.font = UIFont.systemFont(ofSize: 15)
         label.numberOfLines = 0
+        label.textAlignment = .center
         return label
     }()
     let codeTextField: UITextField = {
@@ -140,7 +183,6 @@ class VerifyCodeViewController: UIViewController {
     }()
     let resendBtn: UIButton = {
         let button = UIButton()
-        button.setTitle("重新发送（60）", for: .normal)
         button.setTitleColor(UIColor(rgb: 0x545d66), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         return button
@@ -158,11 +200,13 @@ extension VerifyCodeViewController: UITextFieldDelegate {
         let textField = codeTextField
         let maxLength = verifyCodeMaxLength
         if let text = textField.text {
-            let range = text.startIndex..<text.index(text.startIndex, offsetBy: 6)
-            let numStr = String(text[range])
-            codeContainer.subviews.forEach { view in
-                guard let v = view as? VerifyCodeView else {return}
-                v.number = numStr
+            for (index, view) in codeLabelViews.enumerated() {
+                if index >= text.count {
+                    view.number = ""
+                } else {
+                    let i = text.index(text.startIndex, offsetBy: index)
+                    view.number = String(text[i])
+                }
             }
         }
         let lang = UITextInputMode().primaryLanguage
@@ -212,6 +256,7 @@ class VerifyCodeView: UIView {
         let label = UILabel()
         label.textColor = UIColor(rgb: 0x545d66)
         label.font = UIFont.systemFont(ofSize: 22)
+        label.textAlignment = .center
         return label
     }()
     let line: UIView = {

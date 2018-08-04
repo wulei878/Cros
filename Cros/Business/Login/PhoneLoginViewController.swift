@@ -18,39 +18,34 @@ class PhoneLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        addBarButtonItems()
         addViews()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.customNavStyle()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addNotifications()
+        UIApplication.shared.statusBarStyle = .lightContent
+        navigationController?.isNavigationBarHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-    }
-
-    func addBarButtonItems() {
-        let registerBtn = UIBarButtonItem(title: "注册", style: .plain, target: self, action: #selector(gotoRegisterVC))
-        registerBtn.tintColor = UIColor(rgb: 0x4a9eff)
-        navigationItem.leftBarButtonItems = [registerBtn]
-        let closeBtn = UIButton(type: .custom)
-        closeBtn.setImage(#imageLiteral(resourceName: "close_icon"), for: .normal)
-        closeBtn.size = CGSize(width: 44, height: 44)
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: closeBtn)]
-        closeBtn.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
-        navigationController?.customNavStyle()
+        UIApplication.shared.statusBarStyle = .default
+        navigationController?.isNavigationBarHidden = false
     }
 
     func addViews() {
         let container = UIView()
         view.addSubview(container)
-        container.addSubview(titleLbl)
+        container.addSubview(topMaskView)
+        container.addSubview(backBtn)
+        container.addSubview(appIconImage)
         container.addSubview(phoneTextField)
         container.addSubview(pwdTextField)
+        container.addSubview(registerBtn)
         container.addSubview(forgetPwdBtn)
         container.addSubview(loginBtn)
         container.addSubview(codeLoginBtn)
@@ -63,14 +58,25 @@ class PhoneLoginViewController: UIViewController {
         container.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        titleLbl.snp.makeConstraints { (make) in
-            make.top.equalTo(safeAreaInsets.top + 46)
+        topMaskView.snp.makeConstraints { (make) in
+            make.top.equalTo(0)
+            make.left.right.equalTo(0)
+            make.height.equalTo(235 + safeAreaInsets.top)
+        }
+        backBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(safeAreaInsets.top == 0 ? 15 : safeAreaInsets.top)
+            make.left.equalTo(5)
+            make.width.height.equalTo(44)
+        }
+        appIconImage.snp.makeConstraints { (make) in
+            make.bottom.equalTo(topMaskView.snp.bottom).offset(-53)
+            make.width.height.equalTo(90)
             make.centerX.equalTo(container)
         }
         phoneTextField.snp.makeConstraints { (make) in
             make.left.equalTo(20)
             make.right.equalTo(-20)
-            make.top.equalTo(titleLbl.snp.bottom).offset(65)
+            make.top.equalTo(topMaskView.snp.bottom).offset(36)
             make.height.equalTo(50)
         }
         firstLine.snp.makeConstraints { (make) in
@@ -91,6 +97,10 @@ class PhoneLoginViewController: UIViewController {
             make.width.equalTo(75)
             make.height.equalTo(44)
         }
+        registerBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(phoneTextField).offset(-15)
+            make.centerY.size.equalTo(forgetPwdBtn)
+        }
         loginBtn.snp.makeConstraints { (make) in
             make.top.equalTo(secondLine.snp.bottom).offset(70)
             make.left.equalTo(38)
@@ -109,6 +119,8 @@ class PhoneLoginViewController: UIViewController {
         view.addGestureRecognizer(tap)
         forgetPwdBtn.addTarget(self, action: #selector(gotoForgotPwdVC), for: .touchUpInside)
         codeLoginBtn.addTarget(self, action: #selector(gotoVerifyPhoneVC), for: .touchUpInside)
+        registerBtn.addTarget(self, action: #selector(gotoRegisterVC), for: .touchUpInside)
+        backBtn.addTarget(self, action: #selector(popBack), for: .touchUpInside)
     }
 
     func addNotifications() {
@@ -145,14 +157,11 @@ class PhoneLoginViewController: UIViewController {
         navigationController?.pushViewController(VerifyPhoneViewController(), animated: true)
     }
 
+    @objc func popBack() {
+        navigationController?.dismiss(animated: true, completion: nil)
+    }
+
     // MARK: - getter and setter
-    let titleLbl: UILabel = {
-        let titleLbl = UILabel()
-        titleLbl.textColor = UIColor(rgb: 0x24323d)
-        titleLbl.font = UIFont.systemFont(ofSize: 18)
-        titleLbl.text = "欢迎来到微贝包包"
-        return titleLbl
-    }()
     let phoneTextField: UITextField = {
         let textField = UITextField()
         textField.keyboardType = .numberPad
@@ -192,6 +201,28 @@ class PhoneLoginViewController: UIViewController {
         button.setTitle("验证码快捷登录", for: .normal)
         button.setTitleColor(UIColor(rgb: 0x999999), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        return button
+    }()
+    let topMaskView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(rgb: 0x4a9eff)
+        return view
+    }()
+    let appIconImage: UIImageView = {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "app_icon"))
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    let registerBtn: UIButton = {
+        let button = UIButton()
+        button.setTitle("注册", for: .normal)
+        button.setTitleColor(UIColor(rgb: 0x4a9eff), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        return button
+    }()
+    let backBtn: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "back_white"), for: .normal)
         return button
     }()
 }
