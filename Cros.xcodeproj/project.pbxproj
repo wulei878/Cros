@@ -7,11 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A64B68221160E3B00AFAAF6 /* MineralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A64B68121160E3B00AFAAF6 /* MineralViewController.swift */; };
+		3A64B68521160E5E00AFAAF6 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A64B68421160E5E00AFAAF6 /* NewsViewController.swift */; };
+		3A64B68821160EA300AFAAF6 /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A64B68721160EA300AFAAF6 /* MineViewController.swift */; };
 		3A77E9912113444100C06B90 /* UIButtonExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9902113444100C06B90 /* UIButtonExt.swift */; };
 		3A77E9932113514B00C06B90 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */; };
 		3A77E99821136F4600C06B90 /* ForgotPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E99721136F4600C06B90 /* ForgotPwdViewController.swift */; };
 		3A77E99A2113750700C06B90 /* VerifyPhoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9992113750700C06B90 /* VerifyPhoneViewController.swift */; };
 		3A77E99C211378A000C06B90 /* VerifyCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E99B211378A000C06B90 /* VerifyCodeViewController.swift */; };
+		3A77E9A0211595A500C06B90 /* HomeIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E99F211595A500C06B90 /* HomeIndicatorView.swift */; };
+		3A77E9A221159AE000C06B90 /* HomeListTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */; };
+		3A77E9A421159B0B00C06B90 /* HomeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9A321159B0B00C06B90 /* HomeListTableViewCell.swift */; };
 		5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */; };
 		5AF5929B211152B7005C9F3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5929A211152B7005C9F3E /* AppDelegate.swift */; };
 		5AF592A2211152B9005C9F3E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AF592A1211152B9005C9F3E /* Assets.xcassets */; };
@@ -37,11 +43,17 @@
 /* Begin PBXFileReference section */
 		1B658E1B7A063FB302630298 /* Pods-Cros.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cros.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cros/Pods-Cros.release.xcconfig"; sourceTree = "<group>"; };
 		207A73707D9ABDEE01F274E2 /* Pods_Cros.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cros.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A64B68121160E3B00AFAAF6 /* MineralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineralViewController.swift; sourceTree = "<group>"; };
+		3A64B68421160E5E00AFAAF6 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		3A64B68721160EA300AFAAF6 /* MineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
 		3A77E9902113444100C06B90 /* UIButtonExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExt.swift; sourceTree = "<group>"; };
 		3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		3A77E99721136F4600C06B90 /* ForgotPwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPwdViewController.swift; sourceTree = "<group>"; };
 		3A77E9992113750700C06B90 /* VerifyPhoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPhoneViewController.swift; sourceTree = "<group>"; };
 		3A77E99B211378A000C06B90 /* VerifyCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyCodeViewController.swift; sourceTree = "<group>"; };
+		3A77E99F211595A500C06B90 /* HomeIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIndicatorView.swift; sourceTree = "<group>"; };
+		3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListTableViewModel.swift; sourceTree = "<group>"; };
+		3A77E9A321159B0B00C06B90 /* HomeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListTableViewCell.swift; sourceTree = "<group>"; };
 		5AD9ABF32112D69400BB5AAA /* Cros-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cros-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AD9ABF42112D69400BB5AAA /* GraphCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphCodeView.h; sourceTree = "<group>"; };
 		5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphCodeView.m; sourceTree = "<group>"; };
@@ -87,6 +99,30 @@
 				1B658E1B7A063FB302630298 /* Pods-Cros.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		3A64B68021160E0100AFAAF6 /* Mineral */ = {
+			isa = PBXGroup;
+			children = (
+				3A64B68121160E3B00AFAAF6 /* MineralViewController.swift */,
+			);
+			path = Mineral;
+			sourceTree = "<group>";
+		};
+		3A64B68321160E4500AFAAF6 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				3A64B68421160E5E00AFAAF6 /* NewsViewController.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		3A64B68621160E6500AFAAF6 /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+				3A64B68721160EA300AFAAF6 /* MineViewController.swift */,
+			);
+			path = Mine;
 			sourceTree = "<group>";
 		};
 		5AF5928E211152B7005C9F3E = {
@@ -147,6 +183,9 @@
 			isa = PBXGroup;
 			children = (
 				5AF592D821115EE2005C9F3E /* TabBar */,
+				3A64B68621160E6500AFAAF6 /* Mine */,
+				3A64B68321160E4500AFAAF6 /* News */,
+				3A64B68021160E0100AFAAF6 /* Mineral */,
 				5AF592D121115429005C9F3E /* Login */,
 				5AF592C321115425005C9F3E /* Home */,
 			);
@@ -168,6 +207,7 @@
 			children = (
 				5AF592C521115425005C9F3E /* HomeCollectionViewModel.swift */,
 				5AF592C621115425005C9F3E /* HomeCollectionViewCellModel.swift */,
+				3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -177,6 +217,8 @@
 			children = (
 				5AF592C821115425005C9F3E /* HomeCollectionViewCell.swift */,
 				5AF592C921115425005C9F3E /* HomeCollectionView.swift */,
+				3A77E99F211595A500C06B90 /* HomeIndicatorView.swift */,
+				3A77E9A321159B0B00C06B90 /* HomeListTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -365,11 +407,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A77E9A221159AE000C06B90 /* HomeListTableViewModel.swift in Sources */,
 				5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */,
 				5AF592DD21119B37005C9F3E /* UIViewExt.swift in Sources */,
+				3A64B68821160EA300AFAAF6 /* MineViewController.swift in Sources */,
+				3A77E9A421159B0B00C06B90 /* HomeListTableViewCell.swift in Sources */,
 				3A77E99C211378A000C06B90 /* VerifyCodeViewController.swift in Sources */,
 				5AF592CD21115425005C9F3E /* HomeCollectionViewCellModel.swift in Sources */,
 				5AF592D321115947005C9F3E /* HUD.swift in Sources */,
+				3A64B68221160E3B00AFAAF6 /* MineralViewController.swift in Sources */,
 				5AF592B3211153D2005C9F3E /* WebView.swift in Sources */,
 				5AF592D721115E3E005C9F3E /* RegisterViewController.swift in Sources */,
 				5AF5929B211152B7005C9F3E /* AppDelegate.swift in Sources */,
@@ -377,6 +423,7 @@
 				5AF592B2211153D2005C9F3E /* RefreshHeader.swift in Sources */,
 				5AF592D021115425005C9F3E /* HomeViewController.swift in Sources */,
 				5AF592D521115BD3005C9F3E /* PhoneLoginViewController.swift in Sources */,
+				3A64B68521160E5E00AFAAF6 /* NewsViewController.swift in Sources */,
 				3A77E99821136F4600C06B90 /* ForgotPwdViewController.swift in Sources */,
 				5AF592CF21115425005C9F3E /* HomeCollectionView.swift in Sources */,
 				3A77E99A2113750700C06B90 /* VerifyPhoneViewController.swift in Sources */,
@@ -385,6 +432,7 @@
 				3A77E9932113514B00C06B90 /* UIViewControllerExt.swift in Sources */,
 				5AF592CC21115425005C9F3E /* HomeCollectionViewModel.swift in Sources */,
 				5AF592E22111AB2C005C9F3E /* UIImageExt.swift in Sources */,
+				3A77E9A0211595A500C06B90 /* HomeIndicatorView.swift in Sources */,
 				5AF592DF21119F3E005C9F3E /* UIColorExt.swift in Sources */,
 				5AF592CE21115425005C9F3E /* HomeCollectionViewCell.swift in Sources */,
 			);
