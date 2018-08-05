@@ -19,6 +19,11 @@
 		3A77E9A221159AE000C06B90 /* HomeListTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */; };
 		3A77E9A421159B0B00C06B90 /* HomeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9A321159B0B00C06B90 /* HomeListTableViewCell.swift */; };
 		5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */; };
+		5AD9ABFD2116DF7F00BB5AAA /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABFC2116DF7F00BB5AAA /* KeychainPasswordItem.swift */; };
+		5AD9ABFF2116DF9A00BB5AAA /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABFE2116DF9A00BB5AAA /* KeychainConfiguration.swift */; };
+		5AD9AC012116F13A00BB5AAA /* HomeWalletListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9AC002116F13A00BB5AAA /* HomeWalletListViewModel.swift */; };
+		5AD9AC032117068C00BB5AAA /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9AC022117068C00BB5AAA /* LoginModel.swift */; };
+		5AD9AC052117276000BB5AAA /* InputValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9AC042117276000BB5AAA /* InputValidation.swift */; };
 		5AF5929B211152B7005C9F3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF5929A211152B7005C9F3E /* AppDelegate.swift */; };
 		5AF592A2211152B9005C9F3E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AF592A1211152B9005C9F3E /* Assets.xcassets */; };
 		5AF592A5211152B9005C9F3E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AF592A3211152B9005C9F3E /* LaunchScreen.storyboard */; };
@@ -57,6 +62,12 @@
 		5AD9ABF32112D69400BB5AAA /* Cros-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cros-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AD9ABF42112D69400BB5AAA /* GraphCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphCodeView.h; sourceTree = "<group>"; };
 		5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphCodeView.m; sourceTree = "<group>"; };
+		5AD9ABFB2116DA1500BB5AAA /* Cros.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cros.entitlements; sourceTree = "<group>"; };
+		5AD9ABFC2116DF7F00BB5AAA /* KeychainPasswordItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainPasswordItem.swift; sourceTree = "<group>"; };
+		5AD9ABFE2116DF9A00BB5AAA /* KeychainConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainConfiguration.swift; sourceTree = "<group>"; };
+		5AD9AC002116F13A00BB5AAA /* HomeWalletListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWalletListViewModel.swift; sourceTree = "<group>"; };
+		5AD9AC022117068C00BB5AAA /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		5AD9AC042117276000BB5AAA /* InputValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidation.swift; sourceTree = "<group>"; };
 		5AF59297211152B7005C9F3E /* Cros.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cros.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AF5929A211152B7005C9F3E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5AF592A1211152B9005C9F3E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -146,6 +157,7 @@
 		5AF59299211152B7005C9F3E /* Cros */ = {
 			isa = PBXGroup;
 			children = (
+				5AD9ABFB2116DA1500BB5AAA /* Cros.entitlements */,
 				5AF592DB21119B1F005C9F3E /* Utilities */,
 				5AF592C221115412005C9F3E /* Business */,
 				5AF592AF211153D2005C9F3E /* Component */,
@@ -208,6 +220,7 @@
 				5AF592C521115425005C9F3E /* HomeCollectionViewModel.swift */,
 				5AF592C621115425005C9F3E /* HomeCollectionViewCellModel.swift */,
 				3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */,
+				5AD9AC002116F13A00BB5AAA /* HomeWalletListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -239,6 +252,7 @@
 				3A77E99721136F4600C06B90 /* ForgotPwdViewController.swift */,
 				3A77E9992113750700C06B90 /* VerifyPhoneViewController.swift */,
 				3A77E99B211378A000C06B90 /* VerifyCodeViewController.swift */,
+				5AD9AC022117068C00BB5AAA /* LoginModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -254,11 +268,14 @@
 		5AF592DB21119B1F005C9F3E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5AD9ABFE2116DF9A00BB5AAA /* KeychainConfiguration.swift */,
+				5AD9ABFC2116DF7F00BB5AAA /* KeychainPasswordItem.swift */,
 				5AF592DC21119B37005C9F3E /* UIViewExt.swift */,
 				5AF592DE21119F3E005C9F3E /* UIColorExt.swift */,
 				5AF592E12111AB2C005C9F3E /* UIImageExt.swift */,
 				3A77E9902113444100C06B90 /* UIButtonExt.swift */,
 				3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */,
+				5AD9AC042117276000BB5AAA /* InputValidation.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -307,6 +324,11 @@
 					5AF59296211152B7005C9F3E = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 0940;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -413,6 +435,7 @@
 				3A64B68821160EA300AFAAF6 /* MineViewController.swift in Sources */,
 				3A77E9A421159B0B00C06B90 /* HomeListTableViewCell.swift in Sources */,
 				3A77E99C211378A000C06B90 /* VerifyCodeViewController.swift in Sources */,
+				5AD9AC012116F13A00BB5AAA /* HomeWalletListViewModel.swift in Sources */,
 				5AF592CD21115425005C9F3E /* HomeCollectionViewCellModel.swift in Sources */,
 				5AF592D321115947005C9F3E /* HUD.swift in Sources */,
 				3A64B68221160E3B00AFAAF6 /* MineralViewController.swift in Sources */,
@@ -427,10 +450,14 @@
 				3A77E99821136F4600C06B90 /* ForgotPwdViewController.swift in Sources */,
 				5AF592CF21115425005C9F3E /* HomeCollectionView.swift in Sources */,
 				3A77E99A2113750700C06B90 /* VerifyPhoneViewController.swift in Sources */,
+				5AD9AC032117068C00BB5AAA /* LoginModel.swift in Sources */,
+				5AD9AC052117276000BB5AAA /* InputValidation.swift in Sources */,
 				5AF592AE211153B3005C9F3E /* CRORequest.swift in Sources */,
 				5AF592DA21115F02005C9F3E /* TabBarViewController.swift in Sources */,
 				3A77E9932113514B00C06B90 /* UIViewControllerExt.swift in Sources */,
 				5AF592CC21115425005C9F3E /* HomeCollectionViewModel.swift in Sources */,
+				5AD9ABFF2116DF9A00BB5AAA /* KeychainConfiguration.swift in Sources */,
+				5AD9ABFD2116DF7F00BB5AAA /* KeychainPasswordItem.swift in Sources */,
 				5AF592E22111AB2C005C9F3E /* UIImageExt.swift in Sources */,
 				3A77E9A0211595A500C06B90 /* HomeIndicatorView.swift in Sources */,
 				5AF592DF21119F3E005C9F3E /* UIColorExt.swift in Sources */,
@@ -572,6 +599,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Cros/Cros.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D7LP79ESSD;
 				INFOPLIST_FILE = Cros/Info.plist;
@@ -582,6 +611,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.coin.wallet.Cros;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Cros/Cros-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -595,6 +625,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Cros/Cros.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = D7LP79ESSD;
 				INFOPLIST_FILE = Cros/Info.plist;
@@ -605,6 +637,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.coin.wallet.Cros;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Cros/Cros-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -22,6 +22,8 @@ class HomeViewController: UIViewController {
         collectionView.dataSource = self
         layoutViews()
         homeCollectionViewModel.delegate = self
+        CRORequest.shard.checkUniqueId()
+        CRORequest.shard.delegate = self
 //        collectionView.mj_header = RefreshHeader {[weak self] in
 //            self?.homeCollectionViewModel.getFileList(page: 0, count: 5)
 //        }
@@ -80,7 +82,6 @@ class HomeViewController: UIViewController {
             make.right.equalTo(0)
         }
     }
-    // MARK: - event response
 
     func tableViewFactory() -> UITableView {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -191,18 +192,23 @@ extension HomeViewController: UITableViewDelegate {
     }
 }
 
-extension HomeViewController: HomeCollectionViewModelDelegate {
-    func getFileListCompleted(_ errorCode: Int, errorMessage: String?) {
-        collectionView.mj_header.endRefreshing()
+extension HomeViewController: RequestDelegate {
+    func getUniqueIdCompleted(_ errorCode: Int, _ errorMsg: String) {
         guard errorCode == 0 else {
-            HUD.showText(errorMessage ?? "", in: view)
+            HUD.showText(errorMsg, in: view)
             return
         }
-        for element in homeCollectionViewModel.fileList {
-            guard let ele = element as? [String: Any] else { break }
-//            let homeCollectionViewCellModel = HomeCollectionViewCellModel(dic: ele)
-//            homeCollectionViewCellModels.append(homeCollectionViewCellModel)
-        }
-        self.collectionView.reloadData()
     }
+}
+
+extension HomeViewController: HomeCollectionViewModelDelegate {
+    func getTransactionCompleted(_ errorCode: Int, errorMessage: String?) {
+    }
+
+    func getMyAccountCompleted(_ errorCode: Int, errorMessage: String?) {
+    }
+
+    func getMineralAccountCompleted(_ errorCode: Int, errorMessage: String?) {
+    }
+
 }

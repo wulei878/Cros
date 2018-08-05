@@ -255,7 +255,7 @@ extension RegisterViewController: UITextFieldDelegate {
             maxLength = passwordMaxLength
         } else if nickNameTextField.isFirstResponder {
             textField = nickNameTextField
-            maxLength = 20
+            maxLength = 10
         } else {
             return
         }

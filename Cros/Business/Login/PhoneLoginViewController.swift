@@ -121,6 +121,7 @@ class PhoneLoginViewController: UIViewController {
         codeLoginBtn.addTarget(self, action: #selector(gotoVerifyPhoneVC), for: .touchUpInside)
         registerBtn.addTarget(self, action: #selector(gotoRegisterVC), for: .touchUpInside)
         backBtn.addTarget(self, action: #selector(popBack), for: .touchUpInside)
+        loginBtn.addTarget(self, action: #selector(loginAction), for: .touchUpInside)
     }
 
     func addNotifications() {
@@ -159,6 +160,20 @@ class PhoneLoginViewController: UIViewController {
 
     @objc func popBack() {
         navigationController?.dismiss(animated: true, completion: nil)
+    }
+
+    @objc func loginAction() {
+        let validation = InputValidation()
+        if let msg = validation.validatePhone(phoneTextField.text) {
+            HUD.showText(msg, in: view)
+            return
+        }
+        if let msg = validation.validatePhone(pwdTextField.text) {
+            HUD.showText(msg, in: view)
+            return
+        }
+        LoginModel.shard.login(password: pwdTextField.text ?? "", phone: phoneTextField.text ?? "", verificationCode: "")
+        LoginModel.shard.delegate = self
     }
 
     // MARK: - getter and setter
@@ -245,6 +260,16 @@ extension PhoneLoginViewController: UITextFieldDelegate {
             let range = text.startIndex..<text.index(text.startIndex, offsetBy: maxLength)
             textField.text = String(text[range])
         }
+    }
+}
+
+extension PhoneLoginViewController: LoginModelDelegate {
+    @objc func loginCompleted(_ errorCode: Int, errorMessage: String?) {
+        guard errorCode == 0 else {
+            HUD.showText(errorMessage ?? kNoNetworkError, in: view)
+            return
+        }
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 

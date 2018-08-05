@@ -8,24 +8,47 @@
 import UIKit
 
 protocol HomeCollectionViewModelDelegate: class {
-    func getFileListCompleted(_ errorCode: Int, errorMessage: String?)
+    func getTransactionCompleted(_ errorCode: Int, errorMessage: String?)
+    func getMyAccountCompleted(_ errorCode: Int, errorMessage: String?)
+    func getMineralAccountCompleted(_ errorCode: Int, errorMessage: String?)
 }
 
-public class HomeCollectionViewModel: NSObject {
-    var fileList = [Any]()
+class HomeCollectionViewModel: NSObject {
+    var myTransaction = [String: Any]()
+    var myAccount = [String: Any]()
+    var mineralAccount = [String: Any]()
     weak var delegate: HomeCollectionViewModelDelegate?
 
-    public func getFileList(page: Int, count: Int) {
-        CRORequest.shard.start("") { [weak self](errorCode, value) in
-            guard errorCode == 0,
-                let data = value as? [String: Any],
-                let fileList = data["data"] as? [Any] else {
-                    self?.delegate?.getFileListCompleted(-1, errorMessage: "网络不给力，请稍后重试")
-                    return
+    func getTransaction() {
+        CRORequest.shard.start(APIPath.transaction, needAuthorization: true) { [weak self](errCode, data, msg) in
+            guard errCode == 0, let dic = data as? [String: Any] else {
+                self?.delegate?.getTransactionCompleted(-1, errorMessage: msg)
+                return
             }
-            self?.fileList.removeAll()
-            self?.fileList.append(contentsOf: fileList)
-            self?.delegate?.getFileListCompleted(0, errorMessage: nil)
+            self?.myTransaction = dic
+            self?.delegate?.getTransactionCompleted(0, errorMessage: nil)
+        }
+    }
+
+    func getMyAccount() {
+        CRORequest.shard.start(APIPath.myAccount, needAuthorization: true) { [weak self](errCode, data, msg) in
+            guard errCode == 0, let dic = data as? [String: Any] else {
+                self?.delegate?.getMyAccountCompleted(-1, errorMessage: msg)
+                return
+            }
+            self?.myAccount = dic
+            self?.delegate?.getMyAccountCompleted(0, errorMessage: nil)
+        }
+    }
+
+    func getMineralAccount() {
+        CRORequest.shard.start(APIPath.mineralAccount, needAuthorization: true) { [weak self](errCode, data, msg) in
+            guard errCode == 0, let dic = data as? [String: Any] else {
+                self?.delegate?.getMineralAccountCompleted(-1, errorMessage: msg)
+                return
+            }
+            self?.mineralAccount = dic
+            self?.delegate?.getMineralAccountCompleted(0, errorMessage: nil)
         }
     }
 }
