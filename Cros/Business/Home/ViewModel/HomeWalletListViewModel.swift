@@ -12,7 +12,7 @@ protocol HomeWalletListViewModelDelegate: class {
     func getWalletListCompleted(_ errorCode: Int, errorMessage: String?)
 }
 
-class HomeWalletListViewModel: NSObject {
+class HomeWalletListViewModel {
     var walletList = [[String: Any]]()
     weak var delegate: HomeWalletListViewModelDelegate?
 

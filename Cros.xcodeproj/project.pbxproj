@@ -10,6 +10,8 @@
 		3A64B68221160E3B00AFAAF6 /* MineralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A64B68121160E3B00AFAAF6 /* MineralViewController.swift */; };
 		3A64B68521160E5E00AFAAF6 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A64B68421160E5E00AFAAF6 /* NewsViewController.swift */; };
 		3A64B68821160EA300AFAAF6 /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A64B68721160EA300AFAAF6 /* MineViewController.swift */; };
+		3A64B68B21175D7F00AFAAF6 /* HomeMyAccountCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A64B68A21175D7F00AFAAF6 /* HomeMyAccountCellModel.swift */; };
+		3A64B68D21175E2300AFAAF6 /* HomeMineralCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A64B68C21175E2300AFAAF6 /* HomeMineralCellModel.swift */; };
 		3A77E9912113444100C06B90 /* UIButtonExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9902113444100C06B90 /* UIButtonExt.swift */; };
 		3A77E9932113514B00C06B90 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */; };
 		3A77E99821136F4600C06B90 /* ForgotPwdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E99721136F4600C06B90 /* ForgotPwdViewController.swift */; };
@@ -31,7 +33,7 @@
 		5AF592B2211153D2005C9F3E /* RefreshHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF592B0211153D2005C9F3E /* RefreshHeader.swift */; };
 		5AF592B3211153D2005C9F3E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF592B1211153D2005C9F3E /* WebView.swift */; };
 		5AF592CC21115425005C9F3E /* HomeCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF592C521115425005C9F3E /* HomeCollectionViewModel.swift */; };
-		5AF592CD21115425005C9F3E /* HomeCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF592C621115425005C9F3E /* HomeCollectionViewCellModel.swift */; };
+		5AF592CD21115425005C9F3E /* HomeTransactionCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF592C621115425005C9F3E /* HomeTransactionCellModel.swift */; };
 		5AF592CE21115425005C9F3E /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF592C821115425005C9F3E /* HomeCollectionViewCell.swift */; };
 		5AF592CF21115425005C9F3E /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF592C921115425005C9F3E /* HomeCollectionView.swift */; };
 		5AF592D021115425005C9F3E /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF592CB21115425005C9F3E /* HomeViewController.swift */; };
@@ -52,6 +54,8 @@
 		3A64B68421160E5E00AFAAF6 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		3A64B68721160EA300AFAAF6 /* MineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
 		3A64B689211756BC00AFAAF6 /* Cros.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cros.entitlements; sourceTree = "<group>"; };
+		3A64B68A21175D7F00AFAAF6 /* HomeMyAccountCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMyAccountCellModel.swift; sourceTree = "<group>"; };
+		3A64B68C21175E2300AFAAF6 /* HomeMineralCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMineralCellModel.swift; sourceTree = "<group>"; };
 		3A77E9902113444100C06B90 /* UIButtonExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExt.swift; sourceTree = "<group>"; };
 		3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		3A77E99721136F4600C06B90 /* ForgotPwdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPwdViewController.swift; sourceTree = "<group>"; };
@@ -77,7 +81,7 @@
 		5AF592B0211153D2005C9F3E /* RefreshHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshHeader.swift; sourceTree = "<group>"; };
 		5AF592B1211153D2005C9F3E /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		5AF592C521115425005C9F3E /* HomeCollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewModel.swift; sourceTree = "<group>"; };
-		5AF592C621115425005C9F3E /* HomeCollectionViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCellModel.swift; sourceTree = "<group>"; };
+		5AF592C621115425005C9F3E /* HomeTransactionCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTransactionCellModel.swift; sourceTree = "<group>"; };
 		5AF592C821115425005C9F3E /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		5AF592C921115425005C9F3E /* HomeCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
 		5AF592CB21115425005C9F3E /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -218,7 +222,9 @@
 			isa = PBXGroup;
 			children = (
 				5AF592C521115425005C9F3E /* HomeCollectionViewModel.swift */,
-				5AF592C621115425005C9F3E /* HomeCollectionViewCellModel.swift */,
+				5AF592C621115425005C9F3E /* HomeTransactionCellModel.swift */,
+				3A64B68A21175D7F00AFAAF6 /* HomeMyAccountCellModel.swift */,
+				3A64B68C21175E2300AFAAF6 /* HomeMineralCellModel.swift */,
 				3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */,
 				5AD9AC002116F13A00BB5AAA /* HomeWalletListViewModel.swift */,
 			);
@@ -429,6 +435,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A64B68D21175E2300AFAAF6 /* HomeMineralCellModel.swift in Sources */,
 				3A77E9A221159AE000C06B90 /* HomeListTableViewModel.swift in Sources */,
 				5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */,
 				5AF592DD21119B37005C9F3E /* UIViewExt.swift in Sources */,
@@ -436,7 +443,7 @@
 				3A77E9A421159B0B00C06B90 /* HomeListTableViewCell.swift in Sources */,
 				3A77E99C211378A000C06B90 /* VerifyCodeViewController.swift in Sources */,
 				5AD9AC012116F13A00BB5AAA /* HomeWalletListViewModel.swift in Sources */,
-				5AF592CD21115425005C9F3E /* HomeCollectionViewCellModel.swift in Sources */,
+				5AF592CD21115425005C9F3E /* HomeTransactionCellModel.swift in Sources */,
 				5AF592D321115947005C9F3E /* HUD.swift in Sources */,
 				3A64B68221160E3B00AFAAF6 /* MineralViewController.swift in Sources */,
 				5AF592B3211153D2005C9F3E /* WebView.swift in Sources */,
@@ -453,6 +460,7 @@
 				5AD9AC032117068C00BB5AAA /* LoginModel.swift in Sources */,
 				5AD9AC052117276000BB5AAA /* InputValidation.swift in Sources */,
 				5AF592AE211153B3005C9F3E /* CRORequest.swift in Sources */,
+				3A64B68B21175D7F00AFAAF6 /* HomeMyAccountCellModel.swift in Sources */,
 				5AF592DA21115F02005C9F3E /* TabBarViewController.swift in Sources */,
 				3A77E9932113514B00C06B90 /* UIViewControllerExt.swift in Sources */,
 				5AF592CC21115425005C9F3E /* HomeCollectionViewModel.swift in Sources */,

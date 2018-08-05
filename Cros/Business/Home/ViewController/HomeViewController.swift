@@ -106,7 +106,7 @@ class HomeViewController: UIViewController {
         return collectionView
     }()
 
-//    var homeCollectionViewCellModels = [HomeCollectionViewCellModel]()
+    var homeCollectionViewCellModels:[Any] = [HomeTransactionCellModel(),HomeMyAccountCellModel(),HomeMineralCellModel()]
     let homeCollectionViewModel = HomeCollectionViewModel()
     let indicatorView: HomeIndicatorView = {
         let view = HomeIndicatorView()
@@ -146,13 +146,17 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: HomeCollectionViewCell.self), for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
+        if indexPath.row == 0 {
+            let model = homeCollectionViewCellModels[indexPath.row] as? HomeTransactionCellModel
+            cell.configData(title: cellModel.title, subTitle: cellModel.subTitle, accountNum: cellModel.accountNum, unitStr: cellModel.unitStr, walletName: cellModel.walletName, walletCode: cellModel.walletCode, showMoreBtn: cellModel.showQRCodeBtn, showQRCodeBtn: cellModel.showQRCodeBtn, gradientColors: cellModel.gradientColors)
+        }
         let cellModel = HomeTransactionCellModel()
-        cell.configData(title: cellModel.title, subTitle: cellModel.subTitle, accountNum: cellModel.accountNum, unitStr: cellModel.unitStr, walletName: cellModel.walletName, walletCode: cellModel.walletCode, showMoreBtn: cellModel.showQRCodeBtn, showQRCodeBtn: cellModel.showQRCodeBtn, gradientColors: cellModel.gradientColors)
+
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return homeCollectionViewCellModels.count
     }
 }
 

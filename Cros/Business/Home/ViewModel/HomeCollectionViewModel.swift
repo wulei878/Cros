@@ -13,7 +13,7 @@ protocol HomeCollectionViewModelDelegate: class {
     func getMineralAccountCompleted(_ errorCode: Int, errorMessage: String?)
 }
 
-class HomeCollectionViewModel: NSObject {
+class HomeCollectionViewModel {
     var myTransaction = [String: Any]()
     var myAccount = [String: Any]()
     var mineralAccount = [String: Any]()

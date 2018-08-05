@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeTransactionCellModel: NSObject {
+class HomeTransactionCellModel {
     var title = "交易资产"
     var subTitle = "总资产"
     var accountNum = "0.00"
@@ -17,11 +17,4 @@ class HomeTransactionCellModel: NSObject {
     var showMoreBtn = true
     var showQRCodeBtn = true
     var gradientColors = [UIColor(rgb: 0x599dfe).cgColor, UIColor(rgb: 0x656dff).cgColor]
-    override init() {
-        super.init()
-    }
-
-    init(dic: [String: Any]) {
-        super.init()
-    }
 }
