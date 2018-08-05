@@ -44,7 +44,7 @@ struct InputValidation {
     func validatePassword(_ password: String?) -> String? {
         guard let input = password else { return kPasswordError }
         do {
-            let pattern = "^[.]{6,20}$"
+            let pattern = ".{6,20}$"
             let matcher = try RegexHelper(pattern)
             guard matcher.match(input: input) else { return kPasswordError }
         } catch {

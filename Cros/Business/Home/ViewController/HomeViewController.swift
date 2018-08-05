@@ -16,14 +16,16 @@ class HomeViewController: UIViewController {
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
         view.backgroundColor = .white
         collectionView.delegate = self
         collectionView.dataSource = self
         layoutViews()
         homeCollectionViewModel.delegate = self
-        CRORequest.shard.checkUniqueId()
-        CRORequest.shard.delegate = self
+        loginModel.checkUniqueId()
+        loginModel.delegate = self
+        if !UserInfo.shard.isLogin() {
+            self.present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
+        }
 //        collectionView.mj_header = RefreshHeader {[weak self] in
 //            self?.homeCollectionViewModel.getFileList(page: 0, count: 5)
 //        }
@@ -128,6 +130,7 @@ class HomeViewController: UIViewController {
             listsScrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * listsScrollView.width, y: 0), animated: true)
         }
     }
+    let loginModel = LoginModel()
 }
 
 // MARK: - delegate
@@ -192,7 +195,7 @@ extension HomeViewController: UITableViewDelegate {
     }
 }
 
-extension HomeViewController: RequestDelegate {
+extension HomeViewController: LoginModelDelegate {
     func getUniqueIdCompleted(_ errorCode: Int, _ errorMsg: String) {
         guard errorCode == 0 else {
             HUD.showText(errorMsg, in: view)

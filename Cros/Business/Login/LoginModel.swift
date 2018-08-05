@@ -8,11 +8,12 @@
 
 import Foundation
 
-protocol LoginModelDelegate: class {
-    optional func loginCompleted(_ errorCode: Int, errorMessage: String?)
-    optional func getVerifiedMsgCompleted(_ errCode: Int, errMsg: String?)
-    optional func resetPwdCompleted(_ errCode: Int, errMsg: String?)
-    optional func registerCompleted(_ errCode: Int, errMsg: String?)
+@objc protocol LoginModelDelegate: class {
+    @objc optional func loginCompleted(_ errorCode: Int, errorMessage: String?)
+    @objc optional func getVerifiedMsgCompleted(_ errCode: Int, errMsg: String?)
+    @objc optional func resetPwdCompleted(_ errCode: Int, errMsg: String?)
+    @objc optional func registerCompleted(_ errCode: Int, errMsg: String?)
+    @objc optional func getUniqueIdCompleted(_ errorCode: Int, _ errorMsg: String)
 }
 
 struct UserInfo {
@@ -22,12 +23,15 @@ struct UserInfo {
     var invitationCodeMy = ""
     var computePower = 0
     var authenticationStatus = false
+
+    func isLogin() -> Bool {
+        return token.count > 0
+    }
     static var shard = UserInfo()
 }
 
 class LoginModel {
     weak var delegate: LoginModelDelegate?
-    static let shard = LoginModel()
 
     /// 登录接口
     ///
@@ -43,7 +47,7 @@ class LoginModel {
                      "verificationCode": verificationCode]
         CRORequest.shard.start(APIPath.login, parameters: param) { [weak self](errCode, data, msg) in
             guard errCode == 0, let obj = data as? [String: Any] else {
-                self?.delegate?.loginCompleted(-1, errorMessage: msg)
+                self?.delegate?.loginCompleted?(-1, errorMessage: msg)
                 return
             }
             UserInfo.shard.id = obj["id"] as? String ?? ""
@@ -52,7 +56,7 @@ class LoginModel {
             UserInfo.shard.invitationCodeMy = obj["invitationCodeMy"] as? String ?? ""
             UserInfo.shard.computePower = obj["computePower"] as? Int ?? 0
             UserInfo.shard.authenticationStatus = obj["authenticationStatus"] as? Bool ?? false
-            self?.delegate?.loginCompleted(0, errorMessage: nil)
+            self?.delegate?.loginCompleted?(0, errorMessage: nil)
         }
     }
 
@@ -65,10 +69,10 @@ class LoginModel {
         let param: [String: Any] = ["mobile": mobile, "type": type]
         CRORequest.shard.start(APIPath.verifiedMessage, method: .get, parameters: param) { [weak self](errCode, _, msg) in
             guard errCode == 0 else {
-                self?.delegate?.getVerifiedMsgCompleted(-1, errMsg: msg)
+                self?.delegate?.getVerifiedMsgCompleted?(-1, errMsg: msg)
                 return
             }
-            self?.delegate?.getVerifiedMsgCompleted(0, errMsg: nil)
+            self?.delegate?.getVerifiedMsgCompleted?(0, errMsg: nil)
         }
     }
 
@@ -81,10 +85,10 @@ class LoginModel {
                                   "invitationCodeOthers": invitationCodeOthers]
         CRORequest.shard.start(APIPath.forgetPassword, parameters: param) { [weak self](errCode, _, msg) in
             guard errCode == 0 else {
-                self?.delegate?.resetPwdCompleted(-1, errMsg: msg)
+                self?.delegate?.resetPwdCompleted?(-1, errMsg: msg)
                 return
             }
-            self?.delegate?.resetPwdCompleted(0, errMsg: nil)
+            self?.delegate?.resetPwdCompleted?(0, errMsg: nil)
         }
     }
 
@@ -97,22 +101,46 @@ class LoginModel {
                                   "invitationCodeOthers": invitationCodeOthers]
         CRORequest.shard.start(APIPath.register, parameters: param) { [weak self](errCode, _, msg) in
             guard errCode == 0 else {
-                self?.delegate?.registerCompleted(-1, errMsg: msg)
+                self?.delegate?.registerCompleted?(-1, errMsg: msg)
                 return
             }
-            self?.delegate?.registerCompleted(0, errMsg: nil)
+            self?.delegate?.registerCompleted?(0, errMsg: nil)
         }
     }
-}
 
-func getVerifiedMsgCompleted(_ errCode: Int, errMsg: String?) {
-    <#code#>
-}
-
-func resetPwdCompleted(_ errCode: Int, errMsg: String?) {
-    <#code#>
-}
-
-func registerCompleted(_ errCode: Int, errMsg: String?) {
-    <#code#>
+    func checkUniqueId() {
+        let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: KeychainConfiguration.account, accessGroup: KeychainConfiguration.accessGroup)
+        do {
+            CRORequest.shard.privateKey = try passwordItem.readPassword()
+            delegate?.getUniqueIdCompleted?(0, "")
+            return
+        } catch {
+            print(error)
+            if let uniqueID = UserDefaults.standard.string(forKey: KeychainConfiguration.accessGroup ?? "UniqueId") {
+                CRORequest.shard.privateKey = uniqueID
+                delegate?.getUniqueIdCompleted?(0, "")
+            } else {
+                getUniqueId()
+            }
+        }
+    }
+    func getUniqueId() {
+        CRORequest.shard.start(APIPath.uniqueId) { [weak self](errorCode, data, msg) in
+            guard errorCode == 0, let uniqueID = data as? String else {
+                self?.delegate?.getUniqueIdCompleted?(-1, msg)
+                return
+            }
+            let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: KeychainConfiguration.account, accessGroup: KeychainConfiguration.accessGroup)
+            do {
+                try passwordItem.savePassword(uniqueID)
+                CRORequest.shard.privateKey = uniqueID
+            } catch {
+                print(error)
+                UserDefaults.standard.set(uniqueID, forKey: KeychainConfiguration.accessGroup ?? "UniqueId")
+                UserDefaults.standard.synchronize()
+//                self?.delegate?.getUniqueIdCompleted?(-1, "无法保存设备标识")
+            }
+            self?.delegate?.getUniqueIdCompleted?(0, "")
+        }
+    }
 }

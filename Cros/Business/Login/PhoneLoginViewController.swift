@@ -168,12 +168,12 @@ class PhoneLoginViewController: UIViewController {
             HUD.showText(msg, in: view)
             return
         }
-        if let msg = validation.validatePhone(pwdTextField.text) {
+        if let msg = validation.validatePassword(pwdTextField.text) {
             HUD.showText(msg, in: view)
             return
         }
-        LoginModel.shard.login(password: pwdTextField.text ?? "", phone: phoneTextField.text ?? "", verificationCode: "")
-        LoginModel.shard.delegate = self
+        loginModel.login(password: pwdTextField.text ?? "", phone: phoneTextField.text ?? "", verificationCode: "")
+        loginModel.delegate = self
     }
 
     // MARK: - getter and setter
@@ -240,6 +240,7 @@ class PhoneLoginViewController: UIViewController {
         button.setImage(#imageLiteral(resourceName: "back_white"), for: .normal)
         return button
     }()
+    let loginModel = LoginModel()
 }
 
 // MARK: - delegate
