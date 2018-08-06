@@ -15,12 +15,12 @@ protocol HomeCollectionViewModelDelegate: class {
 
 class HomeCollectionViewModel {
     var myTransaction = [String: Any]()
-    var myAccount:[String: Any]?
-    var mineralAccount:[String: Any]?
+    var myAccount: [String: Any]?
+    var mineralAccount: [String: Any]?
     weak var delegate: HomeCollectionViewModelDelegate?
 
-    func getTransaction(walletAddress:String) {
-        CRORequest.shard.start(APIPath.transaction,parameters:["walletAddress":walletAddress], needAuthorization: true) { [weak self](errCode, data, msg) in
+    func getTransaction(walletAddress: String) {
+        CRORequest.shard.start(APIPath.transaction, parameters: ["walletAddress": walletAddress], needAuthorization: true) { [weak self](errCode, data, msg) in
             guard errCode == 0, let dic = data as? [String: Any] else {
                 self?.delegate?.getTransactionCompleted(-1, errorMessage: msg)
                 return

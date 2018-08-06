@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol HomeWalletListViewModelDelegate: class {
     func getWalletListCompleted(_ errorCode: Int, errorMessage: String)
@@ -17,9 +18,13 @@ class HomeWalletListViewModel {
     weak var delegate: HomeWalletListViewModelDelegate?
 
     func getWalletList() {
-        CRORequest.shard.start(APIPath.walletList, needPrivateKey: true) { [weak self](errCode, data, msg) in
-            guard errCode == 0, let obj = data as? [[String: Any]] else {
+        CRORequest.shard.start(APIPath.walletList, needPrivateKey: true, encoding: URLEncoding.default, headers: ["content-type": "application/x-www-form-urlencoded"]) { [weak self](errCode, data, msg) in
+            guard errCode == 0, let dataArray = data as? [Any] else {
                 self?.delegate?.getWalletListCompleted(-1, errorMessage: msg)
+                return
+            }
+            guard let obj = dataArray as? [[String: Any]] else {
+                self?.delegate?.getWalletListCompleted(0, errorMessage: "")
                 return
             }
             for item in obj {

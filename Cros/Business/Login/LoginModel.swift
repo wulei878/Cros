@@ -133,13 +133,13 @@ class LoginModel {
             let passwordItem = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: KeychainConfiguration.account, accessGroup: KeychainConfiguration.accessGroup)
             do {
                 try passwordItem.savePassword(uniqueID)
-                CRORequest.shard.privateKey = uniqueID
             } catch {
                 print(error)
                 UserDefaults.standard.set(uniqueID, forKey: KeychainConfiguration.accessGroup ?? "UniqueId")
                 UserDefaults.standard.synchronize()
 //                self?.delegate?.getUniqueIdCompleted?(-1, "无法保存设备标识")
             }
+            CRORequest.shard.privateKey = uniqueID
             self?.delegate?.getUniqueIdCompleted?(0, "")
         }
     }

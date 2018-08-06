@@ -9,7 +9,7 @@
 import Foundation
 
 class HomeListTableViewModel {
-    var myTransaction = [[String:Any]]()
-    var myAccount = [[String:Any]]()
-    var mineralAccount = [[String:Any]]()
+    var myTransaction = [[String: Any]]()
+    var myAccount = [[String: Any]]()
+    var mineralAccount = [[String: Any]]()
 }

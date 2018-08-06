@@ -21,7 +21,7 @@ struct APIPath {
     static let mineralAccount = "mining/user/mining/userCurrencyIndex"
 }
 
-fileprivate let isOnLine = true
+fileprivate let isOnLine = false
 fileprivate let baseURL = isOnLine ? "http://www.weibeichain.com/" : "http://120.27.234.14:8081/"
 typealias CROResponse = (_ errorCode: Int, _ data: Any?) -> Void
 typealias CROResponseAndErrMsg = (_ errorCode: Int, _ data: Any?, _ errMsg: String) -> Void
@@ -32,12 +32,12 @@ class CRORequest {
     static let shard = CRORequest()
     var privateKey: String?
 
-    func start(_ path: String, method: HTTPMethod = .post, parameters: Parameters = [:], needPrivateKey: Bool = false, needAuthorization: Bool = false, responseWithErrMsg: CROResponseAndErrMsg?) {
+    func start(_ path: String, method: HTTPMethod = .post, parameters: Parameters = [:], needPrivateKey: Bool = false, needAuthorization: Bool = false, encoding: ParameterEncoding = JSONEncoding.default, headers: HTTPHeaders = ["Content-Type": "application/json"], responseWithErrMsg: CROResponseAndErrMsg?) {
         var param = parameters
         if needPrivateKey {
             param["privateKeyStr"] = privateKey ?? ""
         }
-        Alamofire.request(baseURL + path, method: method, parameters: param, encoding: JSONEncoding.default, headers: ["Content-Type": "application/json"]).validate().responseJSON { (res) in
+        Alamofire.request(baseURL + path, method: method, parameters: param, encoding: encoding, headers: headers).validate().responseJSON { (res) in
             guard let data = res.result.value as? [String: Any] else {
                 responseWithErrMsg?(-1, nil, kNoNetworkError)
                 return

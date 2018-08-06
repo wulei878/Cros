@@ -17,9 +17,9 @@ class HomeCollectionCellModel {
     var showMoreBtn = true
     var showQRCodeBtn = true
     var gradientColors = [UIColor(rgb: 0x599dfe).cgColor, UIColor(rgb: 0x656dff).cgColor]
-    var focusCoins = [[String:Any]]()
+    var focusCoins = [[String: Any]]()
 
-    class func transaction(_ dict:[String:Any]?) -> HomeCollectionCellModel {
+    class func transaction(_ dict: [String: Any]?) -> HomeCollectionCellModel {
         let model = HomeCollectionCellModel()
         model.title = "交易资产"
         model.subTitle = "总资产"
@@ -30,11 +30,11 @@ class HomeCollectionCellModel {
         model.accountNum = dict?["totalValue"] as? String ?? "0.00"
         model.walletName = dict?["walletName"] as? String ?? "钱包名称"
         model.walletCode = dict?["walletAddress"] as? String ?? "7c4a8d09ca3762af61e59520943dc26494f8941b"
-        model.focusCoins = dict?["focusCoin"] as? [[String:Any]] ?? [[String:Any]]()
+        model.focusCoins = dict?["focusCoin"] as? [[String: Any]] ?? [[String: Any]]()
         return model
     }
 
-    class func myAccount(_ dict:[String:Any]?) -> HomeCollectionCellModel {
+    class func myAccount(_ dict: [String: Any]?) -> HomeCollectionCellModel {
         let model = HomeCollectionCellModel()
         model.title = "个人账户"
         model.subTitle = "总数量"
@@ -48,7 +48,7 @@ class HomeCollectionCellModel {
         return model
     }
 
-    class func mineralAccount(_ dict:[String:Any]?) -> HomeCollectionCellModel {
+    class func mineralAccount(_ dict: [String: Any]?) -> HomeCollectionCellModel {
         let model = HomeCollectionCellModel()
         model.title = "矿产账户"
         model.subTitle = "总数量"

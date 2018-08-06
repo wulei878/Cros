@@ -96,7 +96,36 @@ class HomeViewController: UIViewController {
     }
 
     func showUnloginView() {
+        if currentPage == 1 {
+            if let unloginView = self.myAccountUnloginView {
+                unloginView.isHidden = false
+            } else {
+                let unloginView = UnloginView()
+                unloginView.loginBtn.addTarget(self, action: #selector(gotoLoginVC), for: .touchUpInside)
+                myAccountListView.addSubview(unloginView)
+                unloginView.snp.makeConstraints { (make) in
+                    make.top.left.width.height.equalTo(myAccountListView)
+                }
+                myAccountUnloginView = unloginView
+            }
+        }
+        if currentPage == 2 {
+            if let unloginView = self.mineralAccountUnloginView {
+                unloginView.isHidden = false
+            } else {
+                let unloginView = UnloginView()
+                unloginView.loginBtn.addTarget(self, action: #selector(gotoLoginVC), for: .touchUpInside)
+                mineralListView.addSubview(unloginView)
+                unloginView.snp.makeConstraints { (make) in
+                    make.top.left.width.height.equalTo(myAccountListView)
+                }
+                mineralAccountUnloginView = unloginView
+            }
+        }
+    }
 
+    @objc func gotoLoginVC() {
+        present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
     }
     // MARK: - getter and setter
     let collectionView: UICollectionView = {
@@ -115,7 +144,7 @@ class HomeViewController: UIViewController {
     var homeCollectionViewCellModels: [HomeCollectionCellModel] = [HomeCollectionCellModel.transaction(nil), HomeCollectionCellModel.myAccount(nil), HomeCollectionCellModel.mineralAccount(nil)]
     let homeCollectionViewModel = HomeCollectionViewModel()
     let homeListTableViewModel = HomeListTableViewModel()
-    let homeListTableCellModels = [HomeListTableCellModel]
+//    let homeListTableCellModels = [HomeListTableCellModel]
     let walletListViewModel = HomeWalletListViewModel()
     let indicatorView: HomeIndicatorView = {
         let view = HomeIndicatorView()
@@ -151,6 +180,8 @@ class HomeViewController: UIViewController {
         }
     }
     let loginModel = LoginModel()
+    var myAccountUnloginView: UnloginView?
+    var mineralAccountUnloginView: UnloginView?
     var drawer: HomeRightDrawer?
 }
 
@@ -202,8 +233,8 @@ extension HomeViewController: UIScrollViewDelegate {
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: HomeListTableViewCell.self), for: indexPath) as? HomeListTableViewCell else { return UITableViewCell() }
-        let cellModel = HomeListTableViewModel()
-        cell.configData(coinImageURLStr: cellModel.coinImageURLStr, coinTitle: cellModel.coinTitle, amount: cellModel.amount, marketValue: cellModel.marketValue, unitPrice: cellModel.unitPrice)
+//        let cellModel = HomeListTableViewModel()
+//        cell.configData(coinImageURLStr: cellModel.coinImageURLStr, coinTitle: cellModel.coinTitle, amount: cellModel.amount, marketValue: cellModel.marketValue, unitPrice: cellModel.unitPrice)
         return cell
     }
 }
@@ -253,9 +284,6 @@ extension HomeViewController: LoginModelDelegate {
         }
         walletListViewModel.getWalletList()
         walletListViewModel.delegate = self
-        if UserInfo.shard.isLogin() {
-
-        }
     }
 }
 
@@ -295,10 +323,11 @@ extension HomeViewController: HomeCollectionViewModelDelegate {
 // MARK: - HomeWalletListViewModelDelegate
 extension HomeViewController: HomeWalletListViewModelDelegate {
     func getWalletListCompleted(_ errorCode: Int, errorMessage: String) {
-        guard errorCode == 0, walletListViewModel.walletList.count > 0 else {
+        guard errorCode == 0 else {
             HUD.showText(errorMessage, in: view)
             return
         }
+        guard walletListViewModel.walletList.count > 0 else { return }
         let walletAddress = walletListViewModel.walletList[0].walletAddress
         homeCollectionViewModel.getTransaction(walletAddress: walletAddress)
     }
