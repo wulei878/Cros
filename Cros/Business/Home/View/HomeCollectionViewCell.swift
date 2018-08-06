@@ -8,6 +8,11 @@
 import UIKit
 import Kingfisher
 
+protocol HomeCollectionViewCellDelegate: class {
+    func homeCollectionViewCellMoreAction()
+    func homeCollectionViewCellGotoQRCodePage()
+}
+
 class HomeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,6 +31,8 @@ class HomeCollectionViewCell: UICollectionViewCell {
         contentView.clipsToBounds = true
         layer.shadowOpacity = 0.3
         layer.shadowOffset = CGSize(width: 0, height: 5)
+        moreBtn.addTarget(self, action: #selector(moreAction), for: .touchUpInside)
+        qrCodeBtn.addTarget(self, action: #selector(gotoQRCodePage), for: .touchUpInside)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -66,7 +73,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
         qrCodeBtn.snp.makeConstraints { (make) in
             make.centerY.equalTo(walletCodeLbl)
             make.width.height.equalTo(44)
-            make.left.equalTo(walletCodeLbl.snp.right).offset(-4)
+            make.left.equalTo(walletCodeLbl.snp.right).offset(-8)
         }
     }
 
@@ -83,6 +90,16 @@ class HomeCollectionViewCell: UICollectionViewCell {
         layer.shadowColor = gradientColors.first
     }
 
+    // MARK: - event response
+    @objc func moreAction() {
+        delegate?.homeCollectionViewCellMoreAction()
+    }
+
+    @objc func gotoQRCodePage() {
+        delegate?.homeCollectionViewCellGotoQRCodePage()
+    }
+    // MARK: - getter and setter
+    weak var delegate: HomeCollectionViewCellDelegate?
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = .white
@@ -91,7 +108,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }()
     let moreBtn: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "close_icon"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "home_more_icon"), for: .normal)
         return button
     }()
     let subTitleLbl: UILabel = {
@@ -129,7 +146,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }()
     let qrCodeBtn: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "back"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "home_qrcode_icon"), for: .normal)
         return button
     }()
     let layerMask: CAGradientLayer = {

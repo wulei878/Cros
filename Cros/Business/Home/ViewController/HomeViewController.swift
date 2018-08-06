@@ -17,14 +17,16 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        layoutViews()
         collectionView.delegate = self
         collectionView.dataSource = self
-        layoutViews()
         homeCollectionViewModel.delegate = self
-        loginModel.checkUniqueId()
         loginModel.delegate = self
+        loginModel.checkUniqueId()
         if !UserInfo.shard.isLogin() {
-            self.present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
+//            self.present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
+        } else {
+
         }
 //        collectionView.mj_header = RefreshHeader {[weak self] in
 //            self?.homeCollectionViewModel.getFileList(page: 0, count: 5)
@@ -92,6 +94,10 @@ class HomeViewController: UIViewController {
         tableView.delegate = self
         return tableView
     }
+
+    func showUnloginView() {
+
+    }
     // MARK: - getter and setter
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -106,8 +112,11 @@ class HomeViewController: UIViewController {
         return collectionView
     }()
 
-    var homeCollectionViewCellModels:[Any] = [HomeTransactionCellModel(),HomeMyAccountCellModel(),HomeMineralCellModel()]
+    var homeCollectionViewCellModels: [HomeCollectionCellModel] = [HomeCollectionCellModel.transaction(nil), HomeCollectionCellModel.myAccount(nil), HomeCollectionCellModel.mineralAccount(nil)]
     let homeCollectionViewModel = HomeCollectionViewModel()
+    let homeListTableViewModel = HomeListTableViewModel()
+    let homeListTableCellModels = [HomeListTableCellModel]
+    let walletListViewModel = HomeWalletListViewModel()
     let indicatorView: HomeIndicatorView = {
         let view = HomeIndicatorView()
         view.indicatorCount = accountCount
@@ -128,12 +137,24 @@ class HomeViewController: UIViewController {
         didSet {
             indicatorView.currenIndex = currentPage
             listsScrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * listsScrollView.width, y: 0), animated: true)
+            guard currentPage > 0 else { return }
+            guard UserInfo.shard.isLogin() else {
+                showUnloginView()
+                return
+            }
+            if currentPage == 1, let _ = homeCollectionViewModel.myAccount {
+                homeCollectionViewModel.getMyAccount()
+            }
+            if currentPage == 2, let _ = homeCollectionViewModel.mineralAccount {
+                homeCollectionViewModel.getMineralAccount()
+            }
         }
     }
     let loginModel = LoginModel()
+    var drawer: HomeRightDrawer?
 }
 
-// MARK: - delegate
+// MARK: - UICollectionViewDelegateFlowLayout
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: homeCollectionViewCellWidth, height: 145)
@@ -143,15 +164,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: HomeCollectionViewCell.self), for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
-        if indexPath.row == 0 {
-            let model = homeCollectionViewCellModels[indexPath.row] as? HomeTransactionCellModel
-            cell.configData(title: cellModel.title, subTitle: cellModel.subTitle, accountNum: cellModel.accountNum, unitStr: cellModel.unitStr, walletName: cellModel.walletName, walletCode: cellModel.walletCode, showMoreBtn: cellModel.showQRCodeBtn, showQRCodeBtn: cellModel.showQRCodeBtn, gradientColors: cellModel.gradientColors)
-        }
-        let cellModel = HomeTransactionCellModel()
-
+        let model = homeCollectionViewCellModels[indexPath.row]
+        cell.configData(title: model.title, subTitle: model.subTitle, accountNum: model.accountNum, unitStr: model.unitStr, walletName: model.walletName, walletCode: model.walletCode, showMoreBtn: model.showMoreBtn, showQRCodeBtn: model.showQRCodeBtn, gradientColors: model.gradientColors)
+        cell.delegate = self
         return cell
     }
 
@@ -160,12 +179,11 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - UICollectionViewDelegate
 extension HomeViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let element = homeCollectionViewCellModels[indexPath.row]
-    }
 }
 
+// MARK: - UIScrollViewDelegate
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         guard scrollView == collectionView else { return }
@@ -180,6 +198,7 @@ extension HomeViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: HomeListTableViewCell.self), for: indexPath) as? HomeListTableViewCell else { return UITableViewCell() }
@@ -189,6 +208,7 @@ extension HomeViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - UITableViewDelegate
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
@@ -199,23 +219,87 @@ extension HomeViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - HomeCollectionViewCellDelegate
+extension HomeViewController: HomeCollectionViewCellDelegate {
+    func homeCollectionViewCellGotoQRCodePage() {
+    }
+    func homeCollectionViewCellMoreAction() {
+        if let drawer = self.drawer {
+            drawer.isHidden = false
+        } else {
+            let drawer = HomeRightDrawer()
+            view.addSubview(drawer)
+            drawer.snp.makeConstraints { (make) in
+                make.edges.equalTo(0)
+            }
+            let tap = UITapGestureRecognizer(target: self, action: #selector(dismissDrawer))
+            drawer.leftMask.addGestureRecognizer(tap)
+            self.drawer = drawer
+        }
+    }
+
+    @objc func dismissDrawer() {
+        guard let drawer = self.drawer else { return }
+        drawer.isHidden = true
+    }
+}
+
+// MARK: - LoginModelDelegate
 extension HomeViewController: LoginModelDelegate {
     func getUniqueIdCompleted(_ errorCode: Int, _ errorMsg: String) {
         guard errorCode == 0 else {
             HUD.showText(errorMsg, in: view)
             return
         }
+        walletListViewModel.getWalletList()
+        walletListViewModel.delegate = self
+        if UserInfo.shard.isLogin() {
+
+        }
     }
 }
 
+// MARK: - HomeCollectionViewModelDelegate
 extension HomeViewController: HomeCollectionViewModelDelegate {
     func getTransactionCompleted(_ errorCode: Int, errorMessage: String?) {
+        guard errorCode == 0 else {
+            HUD.showText(errorMessage ?? "", in: view)
+            return
+        }
+        homeCollectionViewCellModels[0] = HomeCollectionCellModel.transaction(homeCollectionViewModel.myTransaction)
+        collectionView.reloadData()
+        transactionListView.reloadData()
     }
 
     func getMyAccountCompleted(_ errorCode: Int, errorMessage: String?) {
+        guard errorCode == 0 else {
+            HUD.showText(errorMessage ?? "", in: view)
+            return
+        }
+        homeCollectionViewCellModels[1] = HomeCollectionCellModel.myAccount(homeCollectionViewModel.myAccount)
+        collectionView.reloadData()
+        myAccountListView.reloadData()
     }
 
     func getMineralAccountCompleted(_ errorCode: Int, errorMessage: String?) {
+        guard errorCode == 0 else {
+            HUD.showText(errorMessage ?? "", in: view)
+            return
+        }
+        homeCollectionViewCellModels[2] = HomeCollectionCellModel.mineralAccount(homeCollectionViewModel.mineralAccount)
+        collectionView.reloadData()
+        mineralListView.reloadData()
     }
+}
 
+// MARK: - HomeWalletListViewModelDelegate
+extension HomeViewController: HomeWalletListViewModelDelegate {
+    func getWalletListCompleted(_ errorCode: Int, errorMessage: String) {
+        guard errorCode == 0, walletListViewModel.walletList.count > 0 else {
+            HUD.showText(errorMessage, in: view)
+            return
+        }
+        let walletAddress = walletListViewModel.walletList[0].walletAddress
+        homeCollectionViewModel.getTransaction(walletAddress: walletAddress)
+    }
 }

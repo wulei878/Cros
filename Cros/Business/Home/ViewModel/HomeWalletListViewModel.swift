@@ -9,11 +9,11 @@
 import Foundation
 
 protocol HomeWalletListViewModelDelegate: class {
-    func getWalletListCompleted(_ errorCode: Int, errorMessage: String?)
+    func getWalletListCompleted(_ errorCode: Int, errorMessage: String)
 }
 
 class HomeWalletListViewModel {
-    var walletList = [[String: Any]]()
+    var walletList = [HomeWalletAccountModel]()
     weak var delegate: HomeWalletListViewModelDelegate?
 
     func getWalletList() {
@@ -22,8 +22,21 @@ class HomeWalletListViewModel {
                 self?.delegate?.getWalletListCompleted(-1, errorMessage: msg)
                 return
             }
-            self?.walletList = obj
-            self?.delegate?.getWalletListCompleted(0, errorMessage: nil)
+            for item in obj {
+                var account = HomeWalletAccountModel()
+                account.walletId = item["walletId"] as? Int ?? 0
+                account.walletName = item["walletName"] as? String ?? ""
+                account.walletAddress = item["walletAddress"] as? String ?? ""
+                self?.walletList.append(account)
+            }
+            self?.delegate?.getWalletListCompleted(0, errorMessage: "")
         }
     }
+}
+
+struct HomeWalletAccountModel {
+    var headerImageStr = ""
+    var walletName = "松鼠大人"
+    var walletId = 0
+    var walletAddress = ""
 }

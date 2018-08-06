@@ -9,9 +9,7 @@
 import Foundation
 
 class HomeListTableViewModel {
-    var coinImageURLStr = ""
-    var coinTitle = "CROS"
-    var amount = "0.0000"
-    var marketValue = "≈0.00 CNY"
-    var unitPrice = "≈0.00 CNY"
+    var myTransaction = [[String:Any]]()
+    var myAccount = [[String:Any]]()
+    var mineralAccount = [[String:Any]]()
 }
