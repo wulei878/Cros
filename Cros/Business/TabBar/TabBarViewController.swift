@@ -15,7 +15,7 @@ class TabBarViewController: UITabBarController {
         let firstVC = UINavigationController(rootViewController: HomeViewController())
         let secondVC = UINavigationController(rootViewController: MineralViewController())
         let thirdVC = UINavigationController(rootViewController: NewsViewController())
-        let fourthVC = UINavigationController(rootViewController: MineralViewController())
+        let fourthVC = UINavigationController(rootViewController: MineViewController())
         viewControllers = [firstVC, secondVC, thirdVC, fourthVC]
         firstVC.tabBarItem = UITabBarItem(title: "资产", image: #imageLiteral(resourceName: "home"), selectedImage: #imageLiteral(resourceName: "home_selected"))
         secondVC.tabBarItem = UITabBarItem(title: "挖矿", image: #imageLiteral(resourceName: "mineral"), selectedImage: #imageLiteral(resourceName: "mineral_selected"))
