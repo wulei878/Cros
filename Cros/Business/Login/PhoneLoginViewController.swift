@@ -32,9 +32,13 @@ class PhoneLoginViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UITextFieldTextDidChange, object: nil)
         UIApplication.shared.statusBarStyle = .default
         navigationController?.isNavigationBarHidden = false
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     func addViews() {
@@ -126,6 +130,7 @@ class PhoneLoginViewController: UIViewController {
 
     func addNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loginSucceed), name: kLoginSucceedNotification, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -265,11 +270,11 @@ extension PhoneLoginViewController: UITextFieldDelegate {
 }
 
 extension PhoneLoginViewController: LoginModelDelegate {
-    @objc func loginCompleted(_ errorCode: Int, errorMessage: String?) {
-        guard errorCode == 0 else {
-            HUD.showText(errorMessage ?? kNoNetworkError, in: view)
-            return
-        }
+    func loginFail(_ errCode: Int, errMsg: String?) {
+        HUD.showText(errMsg ?? kNoNetworkError, in: view)
+    }
+
+    @objc func loginSucceed() {
         navigationController?.dismiss(animated: true, completion: nil)
     }
 }

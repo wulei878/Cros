@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 protocol HomeCollectionViewModelDelegate: class {
     func getTransactionCompleted(_ errorCode: Int, errorMessage: String?)
@@ -15,12 +16,14 @@ protocol HomeCollectionViewModelDelegate: class {
 
 class HomeCollectionViewModel {
     var myTransaction = [String: Any]()
-    var myAccount: [String: Any]?
-    var mineralAccount: [String: Any]?
+    var myAccount = [String: Any]()
+    var mineralAccount = [String: Any]()
     weak var delegate: HomeCollectionViewModelDelegate?
+    var currentWalletAddress: String?
 
     func getTransaction(walletAddress: String) {
-        CRORequest.shard.start(APIPath.transaction, parameters: ["walletAddress": walletAddress], needAuthorization: true) { [weak self](errCode, data, msg) in
+        currentWalletAddress = walletAddress
+        CRORequest.shard.start(APIPath.transaction, parameters: ["walletAddress": walletAddress], needPrivateKey: true, encoding: URLEncoding.default, headers: ["content-type": "application/x-www-form-urlencoded"]) { [weak self](errCode, data, msg) in
             guard errCode == 0, let dic = data as? [String: Any] else {
                 self?.delegate?.getTransactionCompleted(-1, errorMessage: msg)
                 return

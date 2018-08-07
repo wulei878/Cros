@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol HomeRightDrawerDelegate: class {
+    func homeRightDrawerScanAction()
+    func homeRightDrawerCreateWallet()
+    func homeRightDrawerChangeWallet(walletAddress: String)
+}
+
 class HomeRightDrawer: UIView {
     init() {
         super.init(frame: UIScreen.main.bounds)
@@ -32,6 +38,10 @@ class HomeRightDrawer: UIView {
         super.init(coder: aDecoder)
     }
 
+    func reloadData() {
+        tableView.reloadData()
+    }
+
     func safeAreaTop() -> CGFloat {
         if #available(iOS 11.0, *) {
             let window = UIApplication.shared.keyWindow
@@ -40,12 +50,13 @@ class HomeRightDrawer: UIView {
         return 0
     }
 
+    weak var delegate: HomeRightDrawerDelegate?
     let leftMask: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
-    let accounts = HomeWalletListViewModel()
+    var accounts = HomeWalletListViewModel()
 
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -60,6 +71,7 @@ class HomeRightDrawer: UIView {
     private class AccountCell: UITableViewCell {
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
+            selectionStyle = .none
             contentView.addSubview(headerImage)
             contentView.addSubview(nameLbl)
             headerImage.snp.makeConstraints { (make) in
@@ -159,6 +171,7 @@ extension HomeRightDrawer: UITableViewDataSource {
             if let tableCell = tableView.dequeueReusableCell(withIdentifier: String(describing: AccountCell.self), for: indexPath) as? AccountCell {
                 let model = accounts.walletList[indexPath.row]
                 tableCell.configData(headerImageStr: model.headerImageStr, name: model.walletName)
+                tableCell.isSelected = model.isSelected
                 cell = tableCell
             }
         case 1:
@@ -199,18 +212,24 @@ extension HomeRightDrawer: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
         switch indexPath.section {
         case 0:
-            if let cell = tableView.cellForRow(at: indexPath) as? AccountCell {
-                cell.isSelected = true
+            var walletAddress: String?
+            for (index, _) in accounts.walletList.enumerated() {
+                accounts.walletList[index].isSelected = index == indexPath.row
+                if index == indexPath.row {
+                    walletAddress = accounts.walletList[index].walletAddress
+                }
             }
-        case 1:
-            tableView.deselectRow(at: indexPath, animated: false)
+            tableView.reloadData()
+            guard let address = walletAddress else { return }
+            delegate?.homeRightDrawerChangeWallet(walletAddress: address)
         case 2:
             if indexPath.row == 0 {
-
+                delegate?.homeRightDrawerScanAction()
             } else if indexPath.row == 1 {
-
+                delegate?.homeRightDrawerCreateWallet()
             }
         default:
             break

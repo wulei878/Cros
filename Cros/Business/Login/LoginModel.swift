@@ -8,8 +8,10 @@
 
 import Foundation
 
+let kLoginSucceedNotification = Notification.Name("kLoginSucceedNotification")
+let kLogoutSucceedNotification = Notification.Name("kLogoutSucceedNotification")
 @objc protocol LoginModelDelegate: class {
-    @objc optional func loginCompleted(_ errorCode: Int, errorMessage: String?)
+    @objc optional func loginFail(_ errCode: Int, errMsg: String?)
     @objc optional func getVerifiedMsgCompleted(_ errCode: Int, errMsg: String?)
     @objc optional func resetPwdCompleted(_ errCode: Int, errMsg: String?)
     @objc optional func registerCompleted(_ errCode: Int, errMsg: String?)
@@ -24,8 +26,15 @@ struct UserInfo {
     var computePower = 0
     var authenticationStatus = false
 
-    func isLogin() -> Bool {
-        return token.count > 0
+    mutating func createfromDict(_ obj: [String: Any]) {
+        id = obj["id"] as? String ?? ""
+        nickname = obj["nickname"] as? String ?? ""
+        token = obj["token"] as? String ?? ""
+        invitationCodeMy = obj["invitationCodeMy"] as? String ?? ""
+        computePower = obj["computePower"] as? Int ?? 0
+        authenticationStatus = obj["authenticationStatus"] as? Bool ?? false
+        UserDefaults.standard.set(token, forKey: String(describing: UserInfo.self))
+        UserDefaults.standard.synchronize()
     }
     static var shard = UserInfo()
 }
@@ -47,16 +56,11 @@ class LoginModel {
                      "verificationCode": verificationCode]
         CRORequest.shard.start(APIPath.login, parameters: param) { [weak self](errCode, data, msg) in
             guard errCode == 0, let obj = data as? [String: Any] else {
-                self?.delegate?.loginCompleted?(-1, errorMessage: msg)
+                self?.delegate?.loginFail?(-1, errMsg: msg)
                 return
             }
-            UserInfo.shard.id = obj["id"] as? String ?? ""
-            UserInfo.shard.nickname = obj["nickname"] as? String ?? ""
-            UserInfo.shard.token = obj["token"] as? String ?? ""
-            UserInfo.shard.invitationCodeMy = obj["invitationCodeMy"] as? String ?? ""
-            UserInfo.shard.computePower = obj["computePower"] as? Int ?? 0
-            UserInfo.shard.authenticationStatus = obj["authenticationStatus"] as? Bool ?? false
-            self?.delegate?.loginCompleted?(0, errorMessage: nil)
+            UserInfo.shard.createfromDict(obj)
+            NotificationCenter.default.post(name: kLoginSucceedNotification, object: nil)
         }
     }
 
@@ -142,5 +146,14 @@ class LoginModel {
             CRORequest.shard.privateKey = uniqueID
             self?.delegate?.getUniqueIdCompleted?(0, "")
         }
+    }
+    func isLogin() -> Bool {
+        if UserInfo.shard.token.count > 0 {
+            return true
+        } else if let token = UserDefaults.standard.object(forKey: String(describing: UserInfo.self)) as? String {
+            UserInfo.shard.token = token
+            return UserInfo.shard.token.count > 0
+        }
+        return false
     }
 }

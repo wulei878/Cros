@@ -17,7 +17,7 @@ class UnloginView: UIView {
         addSubview(loginBtn)
         unloginImageView.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: 166, height: 110))
-            make.top.equalTo(0)
+            make.top.equalTo(20)
             make.centerX.equalTo(self)
         }
         tipsLbl.snp.makeConstraints { (make) in
@@ -36,7 +36,7 @@ class UnloginView: UIView {
     }
 
     let unloginImageView: UIImageView = {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "close_icon"))
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "unlogin_icon"))
         return imageView
     }()
     let tipsLbl: UILabel = {

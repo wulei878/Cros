@@ -18,3 +18,14 @@ class RefreshHeader: MJRefreshNormalHeader {
         super.init(coder: aDecoder)
     }
 }
+
+class RefreshFooter: MJRefreshAutoNormalFooter {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.stateLabel.isHidden = true
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}

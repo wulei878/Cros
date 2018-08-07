@@ -19,9 +19,10 @@ struct APIPath {
     static let transaction = "asset/assets"
     static let myAccount = "asset/user/userAssetIndex"
     static let mineralAccount = "mining/user/mining/userCurrencyIndex"
+    static let userInfo = "wallet/user/wallet/userInfo"
 }
 
-fileprivate let isOnLine = false
+fileprivate let isOnLine = true
 fileprivate let baseURL = isOnLine ? "http://www.weibeichain.com/" : "http://120.27.234.14:8081/"
 typealias CROResponse = (_ errorCode: Int, _ data: Any?) -> Void
 typealias CROResponseAndErrMsg = (_ errorCode: Int, _ data: Any?, _ errMsg: String) -> Void
@@ -36,8 +37,13 @@ class CRORequest {
         var param = parameters
         if needPrivateKey {
             param["privateKeyStr"] = privateKey ?? ""
+            param["privateKeyStr"] = "db6042b6-0709-4a81-9aa4-a44169b42ea61533002946382"
         }
-        Alamofire.request(baseURL + path, method: method, parameters: param, encoding: encoding, headers: headers).validate().responseJSON { (res) in
+        var allHeaders = headers
+        if needAuthorization {
+            allHeaders["authorization"] = UserInfo.shard.token
+        }
+        Alamofire.request(baseURL + path, method: method, parameters: param, encoding: encoding, headers: allHeaders).validate().responseJSON { (res) in
             guard let data = res.result.value as? [String: Any] else {
                 responseWithErrMsg?(-1, nil, kNoNetworkError)
                 return

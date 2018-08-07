@@ -27,11 +27,12 @@ class HomeWalletListViewModel {
                 self?.delegate?.getWalletListCompleted(0, errorMessage: "")
                 return
             }
-            for item in obj {
+            for (index, item) in obj.enumerated() {
                 var account = HomeWalletAccountModel()
                 account.walletId = item["walletId"] as? Int ?? 0
                 account.walletName = item["walletName"] as? String ?? ""
                 account.walletAddress = item["walletAddress"] as? String ?? ""
+                account.isSelected = index == 0
                 self?.walletList.append(account)
             }
             self?.delegate?.getWalletListCompleted(0, errorMessage: "")
@@ -41,7 +42,8 @@ class HomeWalletListViewModel {
 
 struct HomeWalletAccountModel {
     var headerImageStr = ""
-    var walletName = "松鼠大人"
+    var walletName = ""
     var walletId = 0
     var walletAddress = ""
+    var isSelected = false
 }
