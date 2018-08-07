@@ -7,28 +7,49 @@
 //
 
 import UIKit
+import WebKit
+import JavaScriptCore
 
 class MineViewController: UIViewController {
-
+    //MARK:- life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(webview)
+        webview.snp.makeConstraints { (make) in
+            make.edges.equalTo(0)
+        }
+        if let url = URL(string: baseURL + "wallet-web/#/userPage") {
+            let request = URLRequest(url: url)
+            webview.load(request)
+        }
+        webview.navigationDelegate = self
+    }
 
-        // Do any additional setup after loading the view.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = false
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    //MARK:- event response
+    func addJavaScript() {
+        let context = JSContext()
+        context["getUUID"] = 
     }
-    */
+    //MARK:- getter and setter
+    fileprivate let webview: WebView = {
+        let webview = WebView()
+        return webview
+    }()
+}
 
+//MARK:- delegate
+extension MineViewController:WKNavigationDelegate {
 }

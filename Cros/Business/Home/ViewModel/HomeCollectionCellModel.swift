@@ -30,8 +30,8 @@ class HomeCollectionCellModel {
         if let totalValue = dict?["totalValue"] as? String {
             model.accountNum = String(format: "%.2Lf", NSDecimalNumber(string: totalValue))
         }
-        model.walletName = dict?["walletName"] as? String ?? "钱包名称"
-        model.walletCode = dict?["walletAddress"] as? String ?? "7c4a8d09ca3762af61e59520943dc26494f8941b"
+        model.walletName = dict?["walletName"] as? String ?? "暂无钱包"
+        model.walletCode = dict?["walletAddress"] as? String ?? "暂无地址"
         model.focusCoins = dict?["focusCoin"] as? [[String: Any]] ?? [[String: Any]]()
         return model
     }

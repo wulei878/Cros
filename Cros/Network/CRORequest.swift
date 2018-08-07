@@ -22,8 +22,8 @@ struct APIPath {
     static let userInfo = "wallet/user/wallet/userInfo"
 }
 
-fileprivate let isOnLine = true
-fileprivate let baseURL = isOnLine ? "http://www.weibeichain.com/" : "http://120.27.234.14:8081/"
+fileprivate let isOnLine = false
+let baseURL = isOnLine ? "http://www.weibeichain.com/" : "http://120.27.234.14:8081/"
 typealias CROResponse = (_ errorCode: Int, _ data: Any?) -> Void
 typealias CROResponseAndErrMsg = (_ errorCode: Int, _ data: Any?, _ errMsg: String) -> Void
 let kNoNetworkError = "网络出现问题，请稍后重试"
@@ -37,7 +37,6 @@ class CRORequest {
         var param = parameters
         if needPrivateKey {
             param["privateKeyStr"] = privateKey ?? ""
-            param["privateKeyStr"] = "db6042b6-0709-4a81-9aa4-a44169b42ea61533002946382"
         }
         var allHeaders = headers
         if needAuthorization {

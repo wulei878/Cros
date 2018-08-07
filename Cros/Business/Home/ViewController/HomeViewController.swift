@@ -136,9 +136,11 @@ class HomeViewController: UIViewController {
             homeCollectionViewModel.getTransaction(walletAddress: address)
         } else if currentPage == 1 {
             myAccountListView.mj_header.endRefreshing()
+            myAccountListModels.removeAll()
             homeCollectionViewModel.getMyAccount()
         } else if currentPage == 2 {
             mineralListView.mj_header.endRefreshing()
+            mineralListModels.removeAll()
             homeCollectionViewModel.getMineralAccount()
         }
     }
@@ -257,10 +259,10 @@ extension HomeViewController: UITableViewDataSource {
             let cellModel = transactionListModels[indexPath.row]
             cell.configData(coinImageURLStr: cellModel.coinImageURLStr, coinTitle: cellModel.coinTitle, amount: cellModel.amount, marketValue: cellModel.marketValue, unitPrice: cellModel.unitPrice)
         } else if tableView == myAccountListView {
-            let cellModel = transactionListModels[indexPath.row]
+            let cellModel = myAccountListModels[indexPath.row]
             cell.configData(coinImageURLStr: cellModel.coinImageURLStr, coinTitle: cellModel.coinTitle, amount: cellModel.amount, marketValue: cellModel.marketValue, unitPrice: cellModel.unitPrice)
         } else if tableView == mineralListView {
-            let cellModel = transactionListModels[indexPath.row]
+            let cellModel = mineralListModels[indexPath.row]
             cell.configData(coinImageURLStr: cellModel.coinImageURLStr, coinTitle: cellModel.coinTitle, amount: cellModel.amount, marketValue: cellModel.marketValue, unitPrice: cellModel.unitPrice)
         }
         return cell
@@ -325,12 +327,12 @@ extension HomeViewController: LoginModelDelegate {
     }
 
     @objc func loginSucceed() {
+        myAccountUnloginView?.isHidden = true
+        mineralAccountUnloginView?.isHidden = true
         if currentPage == 1 {
-            myAccountUnloginView?.isHidden = true
             homeCollectionViewModel.getMyAccount()
         }
         if currentPage == 2 {
-            mineralAccountUnloginView?.isHidden = true
             homeCollectionViewModel.getMineralAccount()
         }
     }
@@ -359,7 +361,13 @@ extension HomeViewController: HomeCollectionViewModelDelegate {
             HUD.showText(errorMessage ?? "", in: view)
             return
         }
-        homeCollectionViewCellModels[1] = HomeCollectionCellModel.myAccount(homeCollectionViewModel.myAccount)
+        let myAccount = HomeCollectionCellModel.myAccount(homeCollectionViewModel.myAccount)
+        homeCollectionViewCellModels[1] = myAccount
+        homeListTableViewModel.myAccount = myAccount.focusCoins
+        for item in homeListTableViewModel.myAccount {
+            let model = HomeListTableCellModel.myAccount(item)
+            myAccountListModels.append(model)
+        }
         collectionView.reloadData()
         myAccountListView.reloadData()
     }
@@ -369,7 +377,13 @@ extension HomeViewController: HomeCollectionViewModelDelegate {
             HUD.showText(errorMessage ?? "", in: view)
             return
         }
-        homeCollectionViewCellModels[2] = HomeCollectionCellModel.mineralAccount(homeCollectionViewModel.mineralAccount)
+        let mineralAccount = HomeCollectionCellModel.mineralAccount(homeCollectionViewModel.mineralAccount)
+        homeCollectionViewCellModels[2] = mineralAccount
+        homeListTableViewModel.mineralAccount = mineralAccount.focusCoins
+        for item in homeListTableViewModel.mineralAccount {
+            let model = HomeListTableCellModel.mineralAccount(item)
+            mineralListModels.append(model)
+        }
         collectionView.reloadData()
         mineralListView.reloadData()
     }
