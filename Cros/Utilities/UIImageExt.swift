@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreGraphics
 
 extension UIImage {
     public convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
@@ -19,5 +20,18 @@ extension UIImage {
 
         guard let cgImage = image?.cgImage else { return nil }
         self.init(cgImage: cgImage)
+    }
+
+    func cropSquareImage(width: CGFloat) -> UIImage {
+        let imageWidth = size.width * scale
+        let imageHeight = size.height * scale
+        let offsetX = (imageWidth - width) / 2
+        let offsetY = (imageHeight - width) / 2
+        let rect = CGRect(x: offsetX, y: offsetY, width: width, height: width)
+        guard let newImageRef = cgImage?.cropping(to: rect) else {
+            return self
+        }
+        let newImage = UIImage(cgImage: newImageRef)
+        return newImage
     }
 }

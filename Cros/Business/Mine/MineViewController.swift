@@ -47,9 +47,8 @@ class MineViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //选择相册中的图片完成，进行获取二维码信息
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage,
-            let imageData = UIImagePNGRepresentation(image) {
-            let encodeStr = imageData.base64EncodedString(options: .lineLength64Characters)
-            
+            let imageData = UIImagePNGRepresentation(image.cropSquareImage(width: 400)) {
+            let encodeStr = imageData.base64EncodedString()
             getHeaderImageHandle?(encodeStr, true)
         }
         picker.dismiss(animated: true, completion: nil)
