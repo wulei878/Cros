@@ -15,6 +15,7 @@ protocol HomeWalletListViewModelDelegate: class {
 
 class HomeWalletListViewModel {
     var walletList = [HomeWalletAccountModel]()
+    var currentWalletIndex = 0
     weak var delegate: HomeWalletListViewModelDelegate?
 
     func getWalletList() {
@@ -37,6 +38,10 @@ class HomeWalletListViewModel {
             }
             self?.delegate?.getWalletListCompleted(0, errorMessage: "")
         }
+    }
+
+    func currentWallet() -> HomeWalletAccountModel {
+        return walletList[currentWalletIndex]
     }
 }
 

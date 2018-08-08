@@ -224,6 +224,7 @@ extension HomeRightDrawer: UITableViewDelegate {
             }
             tableView.reloadData()
             guard let address = walletAddress else { return }
+            accounts.currentWalletIndex = indexPath.row
             delegate?.homeRightDrawerChangeWallet(walletAddress: address)
         case 2:
             if indexPath.row == 0 {

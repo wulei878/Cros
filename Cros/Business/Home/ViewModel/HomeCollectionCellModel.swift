@@ -27,8 +27,10 @@ class HomeCollectionCellModel {
         model.showMoreBtn = true
         model.showQRCodeBtn = true
         model.gradientColors = [UIColor(rgb: 0x599dfe).cgColor, UIColor(rgb: 0x656dff).cgColor]
+        let nf = NumberFormatter()
+        nf.twoDigits()
         if let totalValue = dict?["totalValue"] as? String {
-            model.accountNum = String(format: "%.2Lf", NSDecimalNumber(string: totalValue))
+            model.accountNum = nf.string(from: NSDecimalNumber(string: totalValue)) ?? "0.00"
         }
         model.walletName = dict?["walletName"] as? String ?? "暂无钱包"
         model.walletCode = dict?["walletAddress"] as? String ?? "暂无地址"
@@ -45,13 +47,16 @@ class HomeCollectionCellModel {
         model.showMoreBtn = false
         model.showQRCodeBtn = false
         model.gradientColors = [UIColor(rgb: 0x04cadd).cgColor, UIColor(rgb: 0x00a0dd).cgColor]
+        let nf = NumberFormatter()
+        nf.fourDigits()
         if let totalValue = dict?["totalValue"] as? Double {
-            model.accountNum = String(format: "%.2f", totalValue)
+            model.accountNum = String(format: "%.4f", totalValue)
         }
         if let totalAvailable = dict?["totalAvailable"] as? Double {
-            model.walletCode = String(format: "%.2f CROS", totalAvailable)
+            let value = String(format: "%.4f", totalAvailable)
+            model.walletCode = value + " CROS"
         } else {
-            model.walletCode = "0.00 CROS"
+            model.walletCode = "0.0000 CROS"
         }
         model.focusCoins = dict?["indexList"] as? [[String: Any]] ?? [[String: Any]]()
         return model
@@ -66,15 +71,31 @@ class HomeCollectionCellModel {
         model.showMoreBtn = false
         model.showQRCodeBtn = false
         model.gradientColors = [UIColor(rgb: 0xead29e).cgColor, UIColor(rgb: 0xc3a36d).cgColor]
+        let nf = NumberFormatter()
+        nf.fourDigits()
         if let totalValue = dict?["totalUsePrice"] as? Double {
-            model.accountNum = String(format: "%.2f", totalValue)
+            model.accountNum = String(format: "%.4f", totalValue)
         }
         if let totalAvailable = dict?["totalFindPrice"] as? Double {
-            model.walletCode = String(format: "%.2f CROS", totalAvailable)
+            model.walletCode = String(format: "%.4f CROS", totalAvailable)
         } else {
-            model.walletCode = "0.00 CROS"
+            model.walletCode = "0.0000 CROS"
         }
         model.focusCoins = dict?["list"] as? [[String: Any]] ?? [[String: Any]]()
         return model
+    }
+}
+
+extension NumberFormatter {
+    func fourDigits() {
+        minimumFractionDigits = 4
+        maximumFractionDigits = 4
+        minimumIntegerDigits = 1
+    }
+
+    func twoDigits() {
+        minimumFractionDigits = 2
+        maximumFractionDigits = 2
+        minimumIntegerDigits = 1
     }
 }

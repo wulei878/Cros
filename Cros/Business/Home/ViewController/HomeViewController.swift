@@ -23,7 +23,9 @@ class HomeViewController: UIViewController {
         homeCollectionViewModel.delegate = self
         loginModel.delegate = self
         loginModel.checkUniqueId()
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(loginSucceed), name: kLoginSucceedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(logoutSucceed), name: kLogoutSucceedNotification, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -287,17 +289,20 @@ extension HomeViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        WebViewController.shard.url = h5BaseURL + "coinDeatail"
         if tableView == transactionListView {
-            let cellModel = transactionListModels[indexPath.row]
-            WebViewController.shard.url = "http://10.109.20.33:8080" + "/#/coinDeatail"
-            WebViewController.shard.param = ["contractAddress": cellModel.contractAddress,
-                                             "walletAddress": homeCollectionViewModel.currentWalletAddress ?? "",
-                                             "assetName": cellModel.coinTitle,
-                                             "assetValue": cellModel.amount,
-                                             "walletId": "",
-                                             "CNY": cellModel.unitPrice]
-            navigationController?.pushViewController(WebViewController.shard, animated: true)
+            var data = homeListTableViewModel.myTransaction[indexPath.row]
+            data["walletAddress"] = walletListViewModel.currentWallet().walletAddress
+            data["walletId"] = walletListViewModel.currentWallet().walletId
+            WebViewController.shard.param = data
+        } else if tableView == myAccountListView {
+            let data = homeListTableViewModel.myAccount[indexPath.row]
+            WebViewController.shard.param = data
+        } else if tableView == mineralListView {
+            let data = homeListTableViewModel.mineralAccount[indexPath.row]
+            WebViewController.shard.param = data
         }
+        navigationController?.pushViewController(WebViewController.shard, animated: true)
     }
 }
 
@@ -349,6 +354,9 @@ extension HomeViewController: LoginModelDelegate {
         if currentPage == 2 {
             homeCollectionViewModel.getMineralAccount()
         }
+    }
+    @objc func logoutSucceed() {
+        showUnloginView()
     }
 }
 
@@ -420,7 +428,7 @@ extension HomeViewController: HomeWalletListViewModelDelegate {
 extension HomeViewController: HomeRightDrawerDelegate {
     func homeRightDrawerCreateWallet() {
         let vc = WebViewController()
-        vc.url = "http://10.109.20.33:8080" + "/#/createWallet"
+        vc.url = h5BaseURL+"createWallet"
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -434,5 +442,15 @@ extension HomeViewController: HomeRightDrawerDelegate {
     func homeRightDrawerChangeWallet(walletAddress: String) {
         transactionListModels.removeAll()
         homeCollectionViewModel.getTransaction(walletAddress: walletAddress)
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension HomeViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard gestureRecognizer == navigationController?.interactivePopGestureRecognizer,
+            let count = navigationController?.viewControllers.count,
+            count > 1 else { return false }
+        return true
     }
 }

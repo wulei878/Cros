@@ -23,11 +23,13 @@ class JSEventAPI: NSObject {
     @objc func goActivity(arg: String) {
         if arg == "exit_login" {
             UserInfo.shard.clear()
+            NotificationCenter.default.post(name: kLogoutSucceedNotification, object: nil)
         } else if arg == "login" {
             guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
                 let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController
             else { return }
-            navi.viewControllers[0].present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
+            let count = navi.viewControllers.count
+            navi.viewControllers[count - 1].present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
         }
     }
     @objc func share(arg: String, handler: (String, Bool) -> Void) {
@@ -39,8 +41,17 @@ class JSEventAPI: NSObject {
     @objc func getVersionName(arg: String) -> String {
         return ""
     }
-    @objc func pickPic(arg: String, handler: (String, Bool) -> Void) {
-        handler("succeed", true)
+    @objc func pickPic(arg: String, handler: @escaping (String, Bool) -> Void) {
+        //从相册中选择图片
+        let picture = UIImagePickerController()
+        picture.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
+            let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController,
+            let currentVC = navi.viewControllers[navi.viewControllers.count - 1] as? MineViewController
+            else { return }
+        picture.delegate = currentVC
+        currentVC.getHeaderImageHandle = handler
+        currentVC.present(picture, animated: true, completion: nil)
     }
     @objc func hideMenuBar(arg: String) {
         guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController else { return }

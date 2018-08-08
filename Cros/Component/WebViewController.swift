@@ -39,10 +39,8 @@ class WebViewController: UIViewController {
     }
 
     func loadWebPage() {
-        if let webUrl = URL(string: url) {
-            webview.load(URLRequest(url: webUrl))
-        }
-        webview.callHandler("addValue", arguments: [param])
+        webview.loadUrl(url)
+//        webview.callHandler("addValue", arguments: [param])
     }
 
     override func didReceiveMemoryWarning() {

@@ -9,7 +9,7 @@
 import UIKit
 import dsBridge
 
-class MineViewController: UIViewController {
+class MineViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,12 +17,9 @@ class MineViewController: UIViewController {
         webview.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        let urlStr = "http://10.109.20.33:8080" + "/#/userPage?\(arc4random())"
-//        let urlStr = "http://localhost:3000"
-        if let url = URL(string: urlStr) {
-            let request = URLRequest(url: url)
-            webview.load(request)
-        }
+//        let urlStr = h5BaseURL + "userPage?\(arc4random())"
+        let urlStr = "http://localhost:3000"
+        webview.loadUrl(urlStr)
         webview.navigationDelegate = self
         webview.addJavascriptObject(JSEventAPI(), namespace: nil)
         webview.setDebugMode(true)
@@ -47,6 +44,17 @@ class MineViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+    //选择相册中的图片完成，进行获取二维码信息
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage,
+            let imageData = UIImagePNGRepresentation(image) {
+            let encodeStr = imageData.base64EncodedString(options: .lineLength64Characters)
+            
+            getHeaderImageHandle?(encodeStr, true)
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+
     @objc func didLogin() {
         webview.reload()
     }
@@ -55,6 +63,8 @@ class MineViewController: UIViewController {
         let webview = DWKWebView()
         return webview
     }()
+
+    var getHeaderImageHandle: ((String, Bool) -> Void)?
 }
 
 extension MineViewController: WKNavigationDelegate {
