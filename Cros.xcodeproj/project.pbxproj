@@ -20,6 +20,10 @@
 		3A77E9A221159AE000C06B90 /* HomeListTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */; };
 		3A77E9A421159B0B00C06B90 /* HomeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9A321159B0B00C06B90 /* HomeListTableViewCell.swift */; };
 		5A25851D21185AC40038AD5C /* HomeListTableCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A25851C21185AC40038AD5C /* HomeListTableCellModel.swift */; };
+		5A6C4996211AA02E00D66941 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C4994211AA02E00D66941 /* QRCodeViewController.swift */; };
+		5A6C4997211AA02E00D66941 /* QRcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C4995211AA02E00D66941 /* QRcodeView.swift */; };
+		5A6C4999211AA27600D66941 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C4998211AA27600D66941 /* WebViewController.swift */; };
+		5A6C499E211AEEFA00D66941 /* JSEventAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C499D211AEEFA00D66941 /* JSEventAPI.swift */; };
 		5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */; };
 		5AD9ABFD2116DF7F00BB5AAA /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABFC2116DF7F00BB5AAA /* KeychainPasswordItem.swift */; };
 		5AD9ABFF2116DF9A00BB5AAA /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD9ABFE2116DF9A00BB5AAA /* KeychainConfiguration.swift */; };
@@ -65,6 +69,10 @@
 		3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListTableViewModel.swift; sourceTree = "<group>"; };
 		3A77E9A321159B0B00C06B90 /* HomeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListTableViewCell.swift; sourceTree = "<group>"; };
 		5A25851C21185AC40038AD5C /* HomeListTableCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListTableCellModel.swift; sourceTree = "<group>"; };
+		5A6C4994211AA02E00D66941 /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
+		5A6C4995211AA02E00D66941 /* QRcodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRcodeView.swift; sourceTree = "<group>"; };
+		5A6C4998211AA27600D66941 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		5A6C499D211AEEFA00D66941 /* JSEventAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSEventAPI.swift; sourceTree = "<group>"; };
 		5AD9ABF32112D69400BB5AAA /* Cros-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cros-Bridging-Header.h"; sourceTree = "<group>"; };
 		5AD9ABF42112D69400BB5AAA /* GraphCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphCodeView.h; sourceTree = "<group>"; };
 		5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphCodeView.m; sourceTree = "<group>"; };
@@ -188,6 +196,9 @@
 		5AF592AF211153D2005C9F3E /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				5A6C4998211AA27600D66941 /* WebViewController.swift */,
+				5A6C4995211AA02E00D66941 /* QRcodeView.swift */,
+				5A6C4994211AA02E00D66941 /* QRCodeViewController.swift */,
 				5AD9ABF42112D69400BB5AAA /* GraphCodeView.h */,
 				5AD9ABF52112D69500BB5AAA /* GraphCodeView.m */,
 				5AF592B0211153D2005C9F3E /* RefreshHeader.swift */,
@@ -201,9 +212,9 @@
 			isa = PBXGroup;
 			children = (
 				5AF592D821115EE2005C9F3E /* TabBar */,
-				3A64B68621160E6500AFAAF6 /* Mine */,
 				3A64B68321160E4500AFAAF6 /* News */,
 				3A64B68021160E0100AFAAF6 /* Mineral */,
+				3A64B68621160E6500AFAAF6 /* Mine */,
 				5AF592D121115429005C9F3E /* Login */,
 				5AF592C321115425005C9F3E /* Home */,
 			);
@@ -285,6 +296,7 @@
 				3A77E9902113444100C06B90 /* UIButtonExt.swift */,
 				3A77E9922113514B00C06B90 /* UIViewControllerExt.swift */,
 				5AD9AC042117276000BB5AAA /* InputValidation.swift */,
+				5A6C499D211AEEFA00D66941 /* JSEventAPI.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -416,6 +428,7 @@
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/dsBridge/dsBridge.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -425,6 +438,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/dsBridge.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -442,6 +456,7 @@
 				5AD9ABF62112D69500BB5AAA /* GraphCodeView.m in Sources */,
 				5AF592DD21119B37005C9F3E /* UIViewExt.swift in Sources */,
 				3A64B68F2118AF8800AFAAF6 /* UnloginView.swift in Sources */,
+				5A6C4997211AA02E00D66941 /* QRcodeView.swift in Sources */,
 				3A64B68821160EA300AFAAF6 /* MineViewController.swift in Sources */,
 				3A77E9A421159B0B00C06B90 /* HomeListTableViewCell.swift in Sources */,
 				3A77E99C211378A000C06B90 /* VerifyCodeViewController.swift in Sources */,
@@ -454,11 +469,14 @@
 				5AF5929B211152B7005C9F3E /* AppDelegate.swift in Sources */,
 				3A77E9912113444100C06B90 /* UIButtonExt.swift in Sources */,
 				5AF592B2211153D2005C9F3E /* RefreshHeader.swift in Sources */,
+				5A6C4996211AA02E00D66941 /* QRCodeViewController.swift in Sources */,
 				5AF592D021115425005C9F3E /* HomeViewController.swift in Sources */,
 				5AF592D521115BD3005C9F3E /* PhoneLoginViewController.swift in Sources */,
+				5A6C499E211AEEFA00D66941 /* JSEventAPI.swift in Sources */,
 				3A64B68521160E5E00AFAAF6 /* NewsViewController.swift in Sources */,
 				3A77E99821136F4600C06B90 /* ForgotPwdViewController.swift in Sources */,
 				5AF592CF21115425005C9F3E /* HomeCollectionView.swift in Sources */,
+				5A6C4999211AA27600D66941 /* WebViewController.swift in Sources */,
 				5AD9AC072117EE9200BB5AAA /* HomeRightDrawer.swift in Sources */,
 				3A77E99A2113750700C06B90 /* VerifyPhoneViewController.swift in Sources */,
 				5AD9AC032117068C00BB5AAA /* LoginModel.swift in Sources */,

@@ -37,6 +37,7 @@ class CRORequest {
         var param = parameters
         if needPrivateKey {
             param["privateKeyStr"] = privateKey ?? ""
+            param["privateKeyStr"] = "40e0e2c3-3467-4325-862f-45b4f23667181531451925929"
         }
         var allHeaders = headers
         if needAuthorization {
@@ -50,6 +51,9 @@ class CRORequest {
             switch res.result {
             case .success:
                 guard let success = data["success"] as? Bool, success, let obj = data["obj"] else {
+                    if let code = data["code"] as? String, code == "403" {
+//                        UserInfo.shard.clear()
+                    }
                     responseWithErrMsg?(-1, nil, data["msg"] as? String ?? kNoNetworkError)
                     return
                 }

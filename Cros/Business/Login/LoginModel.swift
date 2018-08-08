@@ -36,6 +36,15 @@ struct UserInfo {
         UserDefaults.standard.set(token, forKey: String(describing: UserInfo.self))
         UserDefaults.standard.synchronize()
     }
+
+    mutating func clear() {
+        id = ""
+        nickname = ""
+        token = ""
+        invitationCodeMy = ""
+        computePower = 0
+        authenticationStatus = false
+    }
     static var shard = UserInfo()
 }
 

@@ -10,6 +10,7 @@ target 'Cros' do
   pod 'MJRefresh','3.1.15.3'
   pod 'MBProgressHUD','1.1.0'
   pod 'IQKeyboardManagerSwift','6.1.1'
+  pod 'dsBridge','3.0.2'
   # Pods for Cros
 
 end

@@ -1,27 +1,22 @@
 //
-//  MineViewController.swift
+//  WebViewController.swift
 //  Cros
 //
-//  Created by Owen on 2018/8/5.
+//  Created by owen on 2018/8/8.
 //  Copyright © 2018年 Wu Lei. All rights reserved.
 //
 
 import UIKit
 import dsBridge
 
-class MineViewController: UIViewController {
-    // MARK: - life cycle
+class WebViewController: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         view.addSubview(webview)
         webview.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
-        }
-        let urlStr = "http://10.109.20.33:8080" + "/#/userPage?\(arc4random())"
-//        let urlStr = "http://localhost:3000"
-        if let url = URL(string: urlStr) {
-            let request = URLRequest(url: url)
-            webview.load(request)
         }
         webview.navigationDelegate = self
         webview.addJavascriptObject(JSEventAPI(), namespace: nil)
@@ -30,11 +25,11 @@ class MineViewController: UIViewController {
         webview.scrollView.mj_header = RefreshHeader(refreshingBlock: {[weak self] in
             self?.webview.reload()
         })
-        NotificationCenter.default.addObserver(self, selector: #selector(didLogin), name: kLoginSucceedNotification, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        loadWebPage()
         navigationController?.isNavigationBarHidden = true
     }
 
@@ -43,26 +38,28 @@ class MineViewController: UIViewController {
         navigationController?.isNavigationBarHidden = false
     }
 
+    func loadWebPage() {
+        if let webUrl = URL(string: url) {
+            webview.load(URLRequest(url: webUrl))
+        }
+        webview.callHandler("addValue", arguments: [param])
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    @objc func didLogin() {
-        webview.reload()
-    }
     // MARK: - getter and setter
     fileprivate let webview: DWKWebView = {
         let webview = DWKWebView()
         return webview
     }()
+    var url = ""
+    var param: [String: Any]?
+    static let shard = WebViewController()
 }
 
-extension MineViewController: WKNavigationDelegate {
+extension WebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("succeed")
-        webview.scrollView.mj_header.endRefreshing()
-    }
-
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
     }
 }

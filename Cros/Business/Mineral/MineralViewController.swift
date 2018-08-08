@@ -17,7 +17,7 @@ class MineralViewController: UIViewController {
         webview.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        if let url = URL(string: baseURL + "wallet-web/#/minePage") {
+        if let url = URL(string: "http://10.109.20.33:8080/#/minePage") {
             let request = URLRequest(url: url)
             webview.load(request)
         }

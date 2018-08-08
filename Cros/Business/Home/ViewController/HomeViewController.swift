@@ -285,6 +285,20 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 95
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == transactionListView {
+            let cellModel = transactionListModels[indexPath.row]
+            WebViewController.shard.url = "http://10.109.20.33:8080" + "/#/coinDeatail"
+            WebViewController.shard.param = ["contractAddress": cellModel.contractAddress,
+                                             "walletAddress": homeCollectionViewModel.currentWalletAddress ?? "",
+                                             "assetName": cellModel.coinTitle,
+                                             "assetValue": cellModel.amount,
+                                             "walletId": "",
+                                             "CNY": cellModel.unitPrice]
+            navigationController?.pushViewController(WebViewController.shard, animated: true)
+        }
+    }
 }
 
 // MARK: - HomeCollectionViewCellDelegate
@@ -405,9 +419,16 @@ extension HomeViewController: HomeWalletListViewModelDelegate {
 // MARK: - HomeRightDrawerDelegate
 extension HomeViewController: HomeRightDrawerDelegate {
     func homeRightDrawerCreateWallet() {
+        let vc = WebViewController()
+        vc.url = "http://10.109.20.33:8080" + "/#/createWallet"
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func homeRightDrawerScanAction() {
+        let vc = QRCodeViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func homeRightDrawerChangeWallet(walletAddress: String) {

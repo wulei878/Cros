@@ -63,6 +63,7 @@ class HomeListTableViewCell: UITableViewCell {
         imageView.layer.borderColor = UIColor(rgb: 0xebf4f7).cgColor
         imageView.layer.borderWidth = 2
         imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     let coinTitleLbl: UILabel = {
