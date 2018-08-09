@@ -19,13 +19,16 @@ class VerifyCodeViewController: UIViewController {
         view.addGestureRecognizer(tap)
         let inputTap = UITapGestureRecognizer(target: self, action: #selector(startInput))
         codeContainer.addGestureRecognizer(inputTap)
+        loginModel.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loginSucceed), name: kLoginSucceedNotification, object: nil)
         timer = Timer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         if let timer = self.timer {
+            countDown = 60
             RunLoop.main.add(timer, forMode: .defaultRunLoopMode)
             timer.fire()
         }
@@ -125,6 +128,15 @@ class VerifyCodeViewController: UIViewController {
         countDown -= 1
     }
 
+    @objc func resendVerifyCode() {
+        loginModel.getVerifiedMsg(mobile: phoneNum, type: 3)
+    }
+
+    @objc func loginSucceed() {
+        isLoginProcessing = false
+        navigationController?.dismiss(animated: true, completion: nil)
+    }
+
     // MARK: - getter and setter
     var timer: Timer?
     var countDown = 60 {
@@ -185,6 +197,7 @@ class VerifyCodeViewController: UIViewController {
         let button = UIButton()
         button.setTitleColor(UIColor(rgb: 0x545d66), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        button.addTarget(self, action: #selector(resendVerifyCode), for: .touchUpInside)
         return button
     }()
     let codeContainer: UIView = {
@@ -192,6 +205,8 @@ class VerifyCodeViewController: UIViewController {
         view.backgroundColor = .white
         return view
     }()
+    let loginModel = LoginModel()
+    var isLoginProcessing = false
 }
 
 // MARK: - delegate
@@ -208,6 +223,10 @@ extension VerifyCodeViewController: UITextFieldDelegate {
                     view.number = String(text[i])
                 }
             }
+            if text.count >= 6, !isLoginProcessing {
+                isLoginProcessing = true
+                loginModel.login(password: "", phone: phoneNum, verificationCode: text)
+            }
         }
         let lang = UITextInputMode().primaryLanguage
         if lang == "zh-Hans" {
@@ -221,6 +240,23 @@ extension VerifyCodeViewController: UITextFieldDelegate {
             guard let text = textField.text, text.count >= maxLength else { return }
             let range = text.startIndex..<text.index(text.startIndex, offsetBy: maxLength)
             textField.text = String(text[range])
+        }
+    }
+}
+
+extension VerifyCodeViewController: LoginModelDelegate {
+    func getVerifiedMsgCompleted(_ errCode: Int, errMsg: String?) {
+        guard errCode == 0 else {
+            HUD.showText(errMsg ?? "", in: view)
+            return
+        }
+    }
+
+    func loginFail(_ errCode: Int, errMsg: String?) {
+        isLoginProcessing = false
+        guard errCode == 0 else {
+            HUD.showText(errMsg ?? "", in: view)
+            return
         }
     }
 }

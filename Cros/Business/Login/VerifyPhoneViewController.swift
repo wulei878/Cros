@@ -18,6 +18,7 @@ class VerifyPhoneViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
         confirmBtn.addTarget(self, action: #selector(gotoNext), for: .touchUpInside)
+        loginModel.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,9 +75,12 @@ class VerifyPhoneViewController: UIViewController {
     }
 
     @objc func gotoNext() {
-        let vc = VerifyCodeViewController()
-        vc.phoneNum = "17600410403"
-        navigationController?.pushViewController(vc, animated: true)
+        let validate = InputValidation()
+        if let result = validate.validatePhone(phoneTextField.text) {
+            HUD.showText(result, in: view)
+            return
+        }
+        loginModel.getVerifiedMsg(mobile: phoneTextField.text ?? "", type: 3)
     }
 
     // MARK: - getter and setter
@@ -107,6 +111,7 @@ class VerifyPhoneViewController: UIViewController {
         button.customType("下一步")
         return button
     }()
+    let loginModel = LoginModel()
 }
 
 // MARK: - delegate
@@ -127,5 +132,17 @@ extension VerifyPhoneViewController: UITextFieldDelegate {
             let range = text.startIndex..<text.index(text.startIndex, offsetBy: maxLength)
             textField.text = String(text[range])
         }
+    }
+}
+
+extension VerifyPhoneViewController: LoginModelDelegate {
+    func getVerifiedMsgCompleted(_ errCode: Int, errMsg: String?) {
+        guard errCode == 0 else {
+            HUD.showText(errMsg ?? "", in: view)
+            return
+        }
+        let vc = VerifyCodeViewController()
+        vc.phoneNum = phoneTextField.text ?? ""
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

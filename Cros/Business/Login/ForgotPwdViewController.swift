@@ -22,6 +22,7 @@ class ForgotPwdViewController: UIViewController {
         pwdConfirmTextField.rightView = showPwdConfirmBtn
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
+        loginModel.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,6 +33,8 @@ class ForgotPwdViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        timer?.invalidate()
+        timer = nil
     }
 
     func addViews() {
@@ -132,6 +135,51 @@ class ForgotPwdViewController: UIViewController {
         view.endEditing(true)
     }
 
+    @objc func getVerifyCode() {
+        let validate = InputValidation()
+        if let result = validate.validatePhone(phoneTextField.text) {
+            HUD.showText(result, in: view)
+            return
+        }
+        timer = Timer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        if let timer = self.timer {
+            countDown = 60
+            RunLoop.main.add(timer, forMode: .defaultRunLoopMode)
+            timer.fire()
+        }
+        loginModel.getVerifiedMsg(mobile: phoneTextField.text ?? "", type: 2)
+    }
+
+    @objc func resetPassword() {
+        let validation = InputValidation()
+        if let result = validation.validatePhone(phoneTextField.text) {
+            HUD.showText(result, in: view)
+            return
+        }
+        if let result = validation.validateVerifyCode(msgCodeTextField.text) {
+            HUD.showText(result, in: view)
+            return
+        }
+        if let result = validation.validatePassword(pwdTextField.text) {
+            HUD.showText(result, in: view)
+            return
+        }
+        if let result = validation.validateConfirmPassword(pwdTextField.text, confirmPassword: pwdConfirmTextField.text) {
+            HUD.showText(result, in: view)
+            return
+        }
+        loginModel.resetPassword(phone: phoneTextField.text ?? "", password: pwdTextField.text ?? "", verificationCode: msgCodeTextField.text ?? "")
+    }
+
+    @objc func updateTime() {
+        guard countDown > 0 else {
+            timer?.invalidate()
+            timer = nil
+            return
+        }
+        countDown -= 1
+    }
+
     // MARK: - getter and setter
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -175,11 +223,13 @@ class ForgotPwdViewController: UIViewController {
         button.setTitle("获取验证码", for: .normal)
         button.setTitleColor(UIColor(rgb: 0x4a9eff), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.addTarget(self, action: #selector(getVerifyCode), for: .touchUpInside)
         return button
     }()
     let confirmBtn: UIButton = {
         let button = UIButton()
         button.customType("确定")
+        button.addTarget(self, action: #selector(resetPassword), for: .touchUpInside)
         return button
     }()
     let showPwdBtn: UIButton = {
@@ -194,6 +244,15 @@ class ForgotPwdViewController: UIViewController {
         button.size = CGSize(width: 44, height: 44)
         return button
     }()
+    let loginModel = LoginModel()
+    var timer: Timer?
+    var countDown = 60 {
+        didSet {
+            let str = countDown == 0 ? "获取验证码" : "\(countDown)秒"
+            msgCodeBtn.setTitle(str, for: .normal)
+            msgCodeBtn.isEnabled = countDown == 0
+        }
+    }
 }
 
 // MARK: - delegate
@@ -226,5 +285,21 @@ extension ForgotPwdViewController: UITextFieldDelegate {
             let range = text.startIndex..<text.index(text.startIndex, offsetBy: maxLength)
             textField.text = String(text[range])
         }
+    }
+}
+
+extension ForgotPwdViewController: LoginModelDelegate {
+    func getVerifiedMsgCompleted(_ errCode: Int, errMsg: String?) {
+        guard errCode == 0 else {
+            HUD.showText(errMsg ?? "", in: view)
+            return
+        }
+    }
+    func resetPwdCompleted(_ errCode: Int, errMsg: String?) {
+        guard errCode == 0 else {
+            HUD.showText(errMsg ?? "", in: view)
+            return
+        }
+        navigationController?.popToRootViewController(animated: true)
     }
 }
