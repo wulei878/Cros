@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 class NewsViewController: UIViewController {
 
@@ -16,10 +17,7 @@ class NewsViewController: UIViewController {
         webview.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        if let url = URL(string: h5BaseURL+"infoPage") {
-            let request = URLRequest(url: url)
-            webview.load(request)
-        }
+        webview.loadUrl(h5BaseURL+"infoPage")
     }
 
     override func viewWillAppear(_ animated: Bool) {

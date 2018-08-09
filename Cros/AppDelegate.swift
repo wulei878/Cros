@@ -20,6 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "完成"
+        UMSocialGlobal.shareInstance().isUsingHttpsWhenShareContent = false
+        UMSocialGlobal.shareInstance().isUsingWaterMark = false
+        UMConfigure.initWithAppkey("", channel: nil)
+        UMSocialManager.default().setPlaform(.wechatSession, appKey: "", appSecret: "", redirectURL: "")
         return true
     }
 

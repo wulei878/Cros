@@ -19,12 +19,6 @@ class WebViewController: UIViewController {
             make.edges.equalTo(0)
         }
         webview.navigationDelegate = self
-        webview.addJavascriptObject(JSEventAPI(), namespace: nil)
-        webview.setDebugMode(true)
-        webview.customJavascriptDialogLabelTitles(["alertTitle": "Notification", "alertBtn": "OK"])
-        webview.scrollView.mj_header = RefreshHeader(refreshingBlock: {[weak self] in
-            self?.webview.reload()
-        })
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +34,7 @@ class WebViewController: UIViewController {
 
     func loadWebPage() {
         webview.loadUrl(url)
-//        webview.callHandler("addValue", arguments: [param])
+        webview.callHandler("addValue", arguments: [param ?? ""])
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,8 +42,8 @@ class WebViewController: UIViewController {
     }
 
     // MARK: - getter and setter
-    fileprivate let webview: DWKWebView = {
-        let webview = DWKWebView()
+    fileprivate let webview: WebView = {
+        let webview = WebView()
         return webview
     }()
     var url = ""

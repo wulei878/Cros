@@ -47,6 +47,7 @@ open class HUD {
 
             hud.show(animated: true)
             hud.hide(animated: true, afterDelay: hideDelay)
+            hud.isUserInteractionEnabled = false
             return hud
         }
         var hud: MBProgressHUD?

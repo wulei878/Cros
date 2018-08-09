@@ -44,6 +44,8 @@ struct UserInfo {
         invitationCodeMy = ""
         computePower = 0
         authenticationStatus = false
+        UserDefaults.standard.removeObject(forKey: String(describing: UserInfo.self))
+        UserDefaults.standard.synchronize()
     }
     static var shard = UserInfo()
 }

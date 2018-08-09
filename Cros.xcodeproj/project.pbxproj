@@ -322,6 +322,7 @@
 				5AF59294211152B7005C9F3E /* Frameworks */,
 				5AF59295211152B7005C9F3E /* Resources */,
 				FF93243CACBB68145117C5A1 /* [CP] Embed Pods Frameworks */,
+				4D0DA9C1AFB13B7E7BE1B7A9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -384,6 +385,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4D0DA9C1AFB13B7E7BE1B7A9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Cros/Pods-Cros-resources.sh",
+				"${PODS_ROOT}/UMCShare/UMShare/UMSocialUI/UMSocialSDKResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cros/Pods-Cros-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5AF592E02111A11A005C9F3E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

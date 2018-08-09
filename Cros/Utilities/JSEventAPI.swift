@@ -20,26 +20,33 @@ class JSEventAPI: NSObject {
         return ""
     }
 
-    @objc func goActivity(arg: String) {
+    @objc func goActivity(arg: String) -> String {
         if arg == "exit_login" {
             UserInfo.shard.clear()
             NotificationCenter.default.post(name: kLogoutSucceedNotification, object: nil)
         } else if arg == "login" {
             guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
                 let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController
-            else { return }
+            else { return "" }
             let count = navi.viewControllers.count
             navi.viewControllers[count - 1].present(UINavigationController(rootViewController: PhoneLoginViewController()), animated: true, completion: nil)
         }
-    }
-    @objc func share(arg: String, handler: (String, Bool) -> Void) {
-        handler("succeed", true)
-    }
-    @objc func copyString(arg: String) -> String {
         return ""
     }
-    @objc func getVersionName(arg: String) -> String {
-        return ""
+    @objc func share(arg: String, handler: @escaping (String, Bool) -> Void) {
+        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
+            let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController
+            else { return }
+        let count = navi.viewControllers.count
+        UMSocialUIManager.showShareMenuViewInWindow { (type, _) in
+            ShareManager.shareImageOrText(vc: navi.viewControllers[count - 1], platformType: type, message: "棒极了", image: nil, thumbImage: nil, completion: { (result, _) in
+                print(result ?? "")
+                handler("succeed", true)
+            })
+        }
+    }
+    @objc func getVersionCode(arg: String) -> String {
+        return Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String ?? ""
     }
     @objc func pickPic(arg: String, handler: @escaping (String, Bool) -> Void) {
         //从相册中选择图片
@@ -53,12 +60,46 @@ class JSEventAPI: NSObject {
         currentVC.getHeaderImageHandle = handler
         currentVC.present(picture, animated: true, completion: nil)
     }
-    @objc func hideMenuBar(arg: String) {
-        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController else { return }
+    @objc func hideMenuBar(arg: String) -> String {
+        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController else { return "" }
         tabbar.tabBar.isHidden = true
+        return ""
     }
-    @objc func showMenuBar(arg: String) {
-        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController else { return }
+    @objc func showMenuBar(arg: String) -> String {
+        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController else { return "" }
         tabbar.tabBar.isHidden = false
+        return ""
+    }
+}
+
+class ShareManager {
+    class func shareImageOrText(vc: UIViewController,
+                          platformType: UMSocialPlatformType,
+                          message: String?,
+                          image: String?,
+                          thumbImage: String?,
+                          completion: ((Any?, NSError?) -> Void)?) {
+        //创建分享消息对象
+        let messageObject = UMSocialMessageObject()
+        //设置文本
+        if let message = message {
+            messageObject.text = message
+        }
+
+        if let image = image {
+            //创建图片内容对象
+            let shareObject = UMShareImageObject()
+            shareObject.shareImage = image
+            //如果有缩略图，则设置缩略图
+            if let thumbImage = thumbImage {
+                shareObject.thumbImage = UIImage(named: thumbImage)
+            }
+            //分享消息对象设置分享内容对象
+            messageObject.shareObject = shareObject
+        }
+
+        UMSocialManager.default().share(to: platformType, messageObject: messageObject, currentViewController: vc) { (data, error) in
+            completion?(data, error as NSError?)
+        }
     }
 }

@@ -22,16 +22,13 @@ extension UIImage {
         self.init(cgImage: cgImage)
     }
 
-    func cropSquareImage(width: CGFloat) -> UIImage {
-        let imageWidth = size.width * scale
-        let imageHeight = size.height * scale
-        let offsetX = (imageWidth - width) / 2
-        let offsetY = (imageHeight - width) / 2
-        let rect = CGRect(x: offsetX, y: offsetY, width: width, height: width)
-        guard let newImageRef = cgImage?.cropping(to: rect) else {
-            return self
-        }
-        let newImage = UIImage(cgImage: newImageRef)
-        return newImage
+    func scaleImage(width: CGFloat) -> UIImage {
+        let scale = size.width / size.height
+        let newSize = CGSize(width: width, height: width / scale)
+        UIGraphicsBeginImageContext(newSize)
+        draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage ?? self
     }
 }

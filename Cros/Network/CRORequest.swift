@@ -56,6 +56,8 @@ class CRORequest {
                     if let code = data["code"] as? String, code == "403" {
                         UserInfo.shard.clear()
                         NotificationCenter.default.post(name: kLogoutSucceedNotification, object: nil)
+                        responseWithErrMsg?(-1, nil, "登录过期，请重新登录")
+                        return
                     }
                     responseWithErrMsg?(-1, nil, data["msg"] as? String ?? kNoNetworkError)
                     return

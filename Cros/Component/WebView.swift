@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import WebKit
+import dsBridge
 
-class WebView: WKWebView {
-    var canPerformActions = [Selector: Bool]()
+class WebView: DWKWebView {
     var allowedSystemItems = [#selector(select(_:)),
                               #selector(selectAll(_:)),
                               #selector(copy(_:)),
@@ -17,7 +16,12 @@ class WebView: WKWebView {
 
     init() {
         super.init(frame: .zero, configuration: WebView.getDefaultConfig())
-        setupContextMenuDefaultActions()
+        customJavascriptDialogLabelTitles(["alertTitle": "Notification", "alertBtn": "OK"])
+        scrollView.mj_header = RefreshHeader(refreshingBlock: {[weak self] in
+            self?.reload()
+        })
+        setDebugMode(true)
+        addJavascriptObject(JSEventAPI(), namespace: nil)
     }
 
     required public init?(coder: NSCoder) {
@@ -35,10 +39,13 @@ class WebView: WKWebView {
         self.evaluateJavaScript("window.render(\(url)", completionHandler: nil)
     }
 
-    func setupContextMenuDefaultActions() {
-        self.allowedSystemItems.forEach { (sector) in
-            self.canPerformActions[sector] = true
-        }
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return allowedSystemItems.contains { $0 == action }
+    }
+
+    override func copy(_ sender: Any?) {
+        guard let _ = sender as? UIMenuController else { return }
+        callHandler("copyString", arguments: nil)
     }
 
     func removeMemoryCache() {

@@ -17,10 +17,7 @@ class MineralViewController: UIViewController {
         webview.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-        if let url = URL(string: h5BaseURL + "minePage") {
-            let request = URLRequest(url: url)
-            webview.load(request)
-        }
+        webview.loadUrl(h5BaseURL+"minePage")
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -97,31 +97,27 @@ class HomeViewController: UIViewController {
     }
 
     func showUnloginView() {
-        if currentPage == 1 {
-            if let unloginView = self.myAccountUnloginView {
-                unloginView.isHidden = false
-            } else {
-                let unloginView = UnloginView()
-                unloginView.loginBtn.addTarget(self, action: #selector(gotoLoginVC), for: .touchUpInside)
-                myAccountListView.addSubview(unloginView)
-                unloginView.snp.makeConstraints { (make) in
-                    make.top.left.width.height.equalTo(myAccountListView)
-                }
-                myAccountUnloginView = unloginView
+        if let unloginView = self.myAccountUnloginView {
+            unloginView.isHidden = false
+        } else {
+            let unloginView = UnloginView()
+            unloginView.loginBtn.addTarget(self, action: #selector(gotoLoginVC), for: .touchUpInside)
+            myAccountListView.addSubview(unloginView)
+            unloginView.snp.makeConstraints { (make) in
+                make.top.left.width.height.equalTo(myAccountListView)
             }
+            myAccountUnloginView = unloginView
         }
-        if currentPage == 2 {
-            if let unloginView = self.mineralAccountUnloginView {
-                unloginView.isHidden = false
-            } else {
-                let unloginView = UnloginView()
-                unloginView.loginBtn.addTarget(self, action: #selector(gotoLoginVC), for: .touchUpInside)
-                mineralListView.addSubview(unloginView)
-                unloginView.snp.makeConstraints { (make) in
-                    make.top.left.width.height.equalTo(mineralListView)
-                }
-                mineralAccountUnloginView = unloginView
+        if let unloginView = self.mineralAccountUnloginView {
+            unloginView.isHidden = false
+        } else {
+            let unloginView = UnloginView()
+            unloginView.loginBtn.addTarget(self, action: #selector(gotoLoginVC), for: .touchUpInside)
+            mineralListView.addSubview(unloginView)
+            unloginView.snp.makeConstraints { (make) in
+                make.top.left.width.height.equalTo(mineralListView)
             }
+            mineralAccountUnloginView = unloginView
         }
     }
 

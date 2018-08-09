@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import dsBridge
+import WebKit
 
 class MineViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // MARK: - life cycle
@@ -17,16 +17,10 @@ class MineViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         webview.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
         }
-//        let urlStr = h5BaseURL + "userPage?\(arc4random())"
-        let urlStr = "http://localhost:3000"
+        let urlStr = h5BaseURL + "userPage?\(arc4random())"
+//        let urlStr = "http://10.1.99.31:3000"
         webview.loadUrl(urlStr)
         webview.navigationDelegate = self
-        webview.addJavascriptObject(JSEventAPI(), namespace: nil)
-        webview.setDebugMode(true)
-        webview.customJavascriptDialogLabelTitles(["alertTitle": "Notification", "alertBtn": "OK"])
-        webview.scrollView.mj_header = RefreshHeader(refreshingBlock: {[weak self] in
-            self?.webview.reload()
-        })
         NotificationCenter.default.addObserver(self, selector: #selector(didLogin), name: kLoginSucceedNotification, object: nil)
     }
 
@@ -44,10 +38,14 @@ class MineViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.didReceiveMemoryWarning()
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     //选择相册中的图片完成，进行获取二维码信息
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage,
-            let imageData = UIImagePNGRepresentation(image.cropSquareImage(width: 400)) {
+            let imageData = UIImagePNGRepresentation(image.scaleImage(width: 200)) {
             let encodeStr = imageData.base64EncodedString()
             getHeaderImageHandle?(encodeStr, true)
         }
@@ -58,8 +56,8 @@ class MineViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         webview.reload()
     }
     // MARK: - getter and setter
-    fileprivate let webview: DWKWebView = {
-        let webview = DWKWebView()
+    fileprivate let webview: WebView = {
+        let webview = WebView()
         return webview
     }()
 

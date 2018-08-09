@@ -11,6 +11,8 @@ target 'Cros' do
   pod 'MBProgressHUD','1.1.0'
   pod 'IQKeyboardManagerSwift','6.1.1'
   pod 'dsBridge','3.0.2'
-  # Pods for Cros
-
+  pod 'UMCCommon','1.5.2'
+  pod 'UMCSecurityPlugins','1.0.6'
+  pod 'UMCShare/UI'
+  pod 'UMCShare/Social/ReducedWeChat','6.9.4'
 end
