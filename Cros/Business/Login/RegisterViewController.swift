@@ -19,6 +19,7 @@ class RegisterViewController: UIViewController {
         view.addGestureRecognizer(tap)
         imageCodeView.delegate = self
         imageCodeView.codeStr = randomImageCode(count: imageCodeMaxLength)
+        loginModel.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -29,6 +30,8 @@ class RegisterViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        timer?.invalidate()
+        timer = nil
     }
 
     func addViews() {
@@ -146,6 +149,43 @@ class RegisterViewController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    // MARK: - event response
+    @objc func getVerifyCode() {
+        let validate = InputValidation()
+        if let result = validate.validatePhone(phoneTextField.text) {
+            HUD.showText(result, in: view)
+            return
+        }
+        if let result = validate.validateVerifyImageCode(imageCodeTextField.text, originCode: imageCodeView.codeStr) {
+            HUD.showText(result, in: view)
+            return
+        }
+        timer = Timer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        if let timer = self.timer {
+            countDown = 60
+            RunLoop.main.add(timer, forMode: .defaultRunLoopMode)
+            timer.fire()
+        }
+        loginModel.getVerifiedMsg(mobile: phoneTextField.text ?? "", type: 1)
+    }
+
+    @objc func register() {
+        let validation = InputValidation()
+        if let result = validation.validateRegisterInfo(phone: phoneTextField.text, name: nickNameTextField.text, password: pwdTextField.text, confirmPwd: pwdConfirmTextField.text, imageCode: imageCodeTextField.text, originImageCode: imageCodeView.codeStr, msgCode: msgCodeTextField.text, invitationCode: inviteCodeTextField.text) {
+            HUD.showText(result, in: view)
+            return
+        }
+        loginModel.register(phone: phoneTextField.text ?? "", password: pwdTextField.text ?? "", verificationCode: msgCodeTextField.text ?? "")
+    }
+
+    @objc func updateTime() {
+        guard countDown > 0 else {
+            timer?.invalidate()
+            timer = nil
+            return
+        }
+        countDown -= 1
+    }
 
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -203,11 +243,13 @@ class RegisterViewController: UIViewController {
         button.setTitle("获取验证码", for: .normal)
         button.setTitleColor(UIColor(rgb: 0x4a9eff), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        button.addTarget(self, action: #selector(getVerifyCode), for: .touchUpInside)
         return button
     }()
     let registerBtn: UIButton = {
         let button = UIButton()
         button.customType("注册")
+        button.addTarget(self, action: #selector(register), for: .touchUpInside)
         return button
     }()
     let tipsLbl: UILabel = {
@@ -234,6 +276,15 @@ class RegisterViewController: UIViewController {
         textField.customType()
         return textField
     }()
+    let loginModel = LoginModel()
+    var timer: Timer?
+    var countDown = 60 {
+        didSet {
+            let str = countDown == 0 ? "获取验证码" : "\(countDown)秒"
+            msgCodeBtn.setTitle(str, for: .normal)
+            msgCodeBtn.isEnabled = countDown == 0
+        }
+    }
 }
 
 // MARK: - delegate
@@ -294,5 +345,21 @@ extension RegisterViewController: GraphCodeViewDelegate {
             }
         }
         return str
+    }
+}
+
+extension RegisterViewController: LoginModelDelegate {
+    func getVerifiedMsgCompleted(_ errCode: Int, errMsg: String?) {
+        guard errCode == 0 else {
+            HUD.showText(errMsg ?? "", in: view)
+            return
+        }
+    }
+    func registerCompleted(_ errCode: Int, errMsg: String?) {
+        guard errCode == 0 else {
+            HUD.showText(errMsg ?? "", in: view)
+            return
+        }
+        navigationController?.popToRootViewController(animated: true)
     }
 }

@@ -156,6 +156,7 @@ class HomeViewController: UIViewController {
         collectionView.allowsSelection = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.decelerationRate = UIScrollViewDecelerationRateFast
         return collectionView
     }()
 
@@ -199,6 +200,7 @@ class HomeViewController: UIViewController {
             }
         }
     }
+    var page = 0
     let loginModel = LoginModel()
     var myAccountUnloginView: UnloginView?
     var mineralAccountUnloginView: UnloginView?
@@ -245,6 +247,16 @@ extension HomeViewController: UIScrollViewDelegate {
         page = [page, 0].max() ?? 0
         let newOffset = CGFloat(page) * (cellWidth + cellPadding)
         targetContentOffset.pointee.x = newOffset
+        self.page = page
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate == false {
+            currentPage = page
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentPage = page
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 let kLoginSucceedNotification = Notification.Name("kLoginSucceedNotification")
 let kLogoutSucceedNotification = Notification.Name("kLogoutSucceedNotification")
@@ -79,10 +80,11 @@ class LoginModel {
     ///
     /// - Parameters:
     ///   - mobile: 手机号
-    ///   - type: 快捷登录-3;忘记密码-2;
+    ///   - type: 快捷登录-3;忘记密码-2;注册-1;
     func getVerifiedMsg(mobile: String, type: Int) {
         let param: [String: Any] = ["mobile": mobile, "type": type]
-        CRORequest.shard.start(APIPath.verifiedMessage, method: .get, parameters: param) { [weak self](errCode, _, msg) in
+//        let path = "?mobile=\(mobile)&type=\(type)"
+        CRORequest.shard.start(APIPath.verifiedMessage, method: .get, parameters: param, encoding: URLEncoding.default, headers: ["content-type": "application/x-www-form-urlencoded"]) { [weak self](errCode, _, msg) in
             guard errCode == 0 else {
                 self?.delegate?.getVerifiedMsgCompleted?(-1, errMsg: msg)
                 return
