@@ -435,10 +435,9 @@ extension HomeViewController: HomeWalletListViewModelDelegate {
 // MARK: - HomeRightDrawerDelegate
 extension HomeViewController: HomeRightDrawerDelegate {
     func homeRightDrawerCreateWallet() {
-        let vc = WebViewController()
-        vc.url = h5BaseURL+"createWallet"
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        WebViewController.shard.url = h5BaseURL+"createWallet"
+        WebViewController.shard.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(WebViewController.shard, animated: true)
     }
 
     func homeRightDrawerScanAction() {

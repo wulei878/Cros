@@ -15,4 +15,5 @@ target 'Cros' do
   pod 'UMCSecurityPlugins','1.0.6'
   pod 'UMCShare/UI'
   pod 'UMCShare/Social/ReducedWeChat','6.9.4'
+  pod 'TTTAttributedLabel','2.0.0'
 end

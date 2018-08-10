@@ -24,17 +24,17 @@ class WebViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadWebPage()
-        navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = !showNavi
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
+        showNavi = false
     }
 
     func loadWebPage() {
         webview.loadUrl(url)
-        webview.callHandler("addValue", arguments: [param ?? ""])
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +48,7 @@ class WebViewController: UIViewController {
     }()
     var url = ""
     var param: [String: Any]?
+    var showNavi = false
     static let shard = WebViewController()
 }
 

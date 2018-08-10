@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 class RegisterViewController: UIViewController {
 
@@ -15,16 +16,19 @@ class RegisterViewController: UIViewController {
         title = "注册账号"
         addViews()
         addBackBtn()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        dismissKeyboardTap.isEnabled = false
+        view.addGestureRecognizer(dismissKeyboardTap)
         imageCodeView.delegate = self
         imageCodeView.codeStr = randomImageCode(count: imageCodeMaxLength)
         loginModel.delegate = self
+        tipsLbl.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChange), name: Notification.Name.UITextFieldTextDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: Notification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: Notification.Name.UIKeyboardDidHide, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -149,6 +153,14 @@ class RegisterViewController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+
+    @objc func keyboardDidShow() {
+        dismissKeyboardTap.isEnabled = true
+    }
+
+    @objc func keyboardDidHide() {
+        dismissKeyboardTap.isEnabled = false
+    }
     // MARK: - event response
     @objc func getVerifyCode() {
         let validate = InputValidation()
@@ -252,21 +264,21 @@ class RegisterViewController: UIViewController {
         button.addTarget(self, action: #selector(register), for: .touchUpInside)
         return button
     }()
-    let tipsLbl: UILabel = {
-        let label = UILabel()
-        let attrDic1: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10),
-                                                      NSAttributedStringKey.foregroundColor: UIColor(rgb: 0x212121)]
-        let attrStr = NSMutableAttributedString(string: "注册表示您接受",
-                                                attributes: attrDic1)
-        let attrDic2: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10),
-                       NSAttributedStringKey.foregroundColor: UIColor(rgb: 0x4a9eff),
-                       NSAttributedStringKey.link: "https://www.baidu.com"]
-        attrStr.append(NSAttributedString(string: "《服务协议》",
-                                          attributes: attrDic2))
-        attrStr.append(NSAttributedString(string: "和",
-                                          attributes: attrDic1))
-        attrStr.append(NSAttributedString(string: "《隐私政策》", attributes: attrDic2))
-        label.attributedText = attrStr
+    let tipsLbl: TTTAttributedLabel = {
+        let label = TTTAttributedLabel(frame: .zero)
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = UIColor(rgb: 0x212121)
+        label.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
+        label.text = "注册表示您接受《服务协议》和《隐私政策》"
+        if let range = (label.text as NSString?)?.range(of: "《服务协议》") {
+            label.addLink(to: URL(string: h5BaseURL + "userInfo/agreement"), with: range)
+        }
+        if let range = (label.text as NSString?)?.range(of: "《隐私政策》") {
+            label.addLink(to: URL(string: h5BaseURL + "userInfo/agreement"), with: range)
+        }
+//        let attrDic2: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10),
+//                                                      NSAttributedStringKey.foregroundColor: UIColor(rgb: 0x4a9eff)]
+//        label.activeLinkAttributes = attrDic2
         return label
     }()
     let nickNameTextField: UITextField = {
@@ -285,6 +297,7 @@ class RegisterViewController: UIViewController {
             msgCodeBtn.isEnabled = countDown == 0
         }
     }
+    let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
 }
 
 // MARK: - delegate
@@ -361,5 +374,13 @@ extension RegisterViewController: LoginModelDelegate {
             return
         }
         navigationController?.popToRootViewController(animated: true)
+    }
+}
+
+extension RegisterViewController: TTTAttributedLabelDelegate {
+    func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
+        WebViewController.shard.url = url.absoluteString
+        WebViewController.shard.showNavi = true
+        navigationController?.pushViewController(WebViewController.shard, animated: true)
     }
 }
