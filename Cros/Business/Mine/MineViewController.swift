@@ -27,11 +27,13 @@ class MineViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+        webview.addJavascriptObject(JSEventAPI(), namespace: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
+        webview.removeJavascriptObject(nil)
     }
 
     override func didReceiveMemoryWarning() {

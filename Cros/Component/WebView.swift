@@ -21,7 +21,6 @@ class WebView: DWKWebView {
             self?.reload()
         })
         setDebugMode(true)
-        addJavascriptObject(JSEventAPI(), namespace: nil)
     }
 
     required public init?(coder: NSCoder) {

@@ -25,12 +25,14 @@ class WebViewController: UIViewController {
         super.viewWillAppear(animated)
         loadWebPage()
         navigationController?.isNavigationBarHidden = !showNavi
+        webview.addJavascriptObject(JSEventAPI(), namespace: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.isNavigationBarHidden = false
         showNavi = false
+        webview.removeJavascriptObject(nil)
     }
 
     func loadWebPage() {

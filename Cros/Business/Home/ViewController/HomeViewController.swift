@@ -297,16 +297,18 @@ extension HomeViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        WebViewController.shard.url = h5BaseURL + "coinDeatail"
         if tableView == transactionListView {
+            WebViewController.shard.url = h5BaseURL + "coinDeatail"
             var data = homeListTableViewModel.myTransaction[indexPath.row]
             data["walletAddress"] = walletListViewModel.currentWallet().walletAddress
             data["walletId"] = walletListViewModel.currentWallet().walletId
             WebViewController.shard.param = data
         } else if tableView == myAccountListView {
+            WebViewController.shard.url = h5BaseURL + "accountDetail"
             let data = homeListTableViewModel.myAccount[indexPath.row]
             WebViewController.shard.param = data
         } else if tableView == mineralListView {
+            WebViewController.shard.url = h5BaseURL + "accountDetail"
             let data = homeListTableViewModel.mineralAccount[indexPath.row]
             WebViewController.shard.param = data
         }
@@ -317,6 +319,9 @@ extension HomeViewController: UITableViewDelegate {
 // MARK: - HomeCollectionViewCellDelegate
 extension HomeViewController: HomeCollectionViewCellDelegate {
     func homeCollectionViewCellGotoQRCodePage() {
+        WebViewController.shard.url = h5BaseURL + "getAccounts"
+        WebViewController.shard.param = ["walletAddress": walletListViewModel.currentWallet().walletAddress]
+        navigationController?.pushViewController(WebViewController.shard, animated: true)
     }
     func homeCollectionViewCellMoreAction() {
         if let drawer = self.drawer {

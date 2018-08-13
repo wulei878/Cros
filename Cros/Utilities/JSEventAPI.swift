@@ -70,6 +70,20 @@ class JSEventAPI: NSObject {
         tabbar.tabBar.isHidden = false
         return ""
     }
+    @objc func fetchAssetInfo(arg: String, handler: @escaping ([String: Any], Bool) -> Void) {
+        handler(WebViewController.shard.param ?? [String: Any](), true)
+    }
+    @objc func fetchWalletAddress(arg: String, handler: @escaping ([String: Any], Bool) -> Void) {
+        handler(WebViewController.shard.param ?? [String: Any](), true)
+    }
+    @objc func changeTabBar(arg: String) -> String {
+        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
+            let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController,
+            let _ = navi.viewControllers[0] as? HomeViewController
+            else { return "" }
+        navi.popToRootViewController(animated: true)
+        return ""
+    }
 }
 
 class ShareManager {
