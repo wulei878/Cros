@@ -73,5 +73,6 @@ extension MineViewController: WKNavigationDelegate {
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        webview.scrollView.mj_header.endRefreshing()
     }
 }

@@ -61,7 +61,9 @@ class JSEventAPI: NSObject {
         currentVC.present(picture, animated: true, completion: nil)
     }
     @objc func hideMenuBar(arg: String) -> String {
-        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController else { return "" }
+        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
+        let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController,
+        navi.viewControllers.count > 1 else { return "" }
         tabbar.tabBar.isHidden = true
         return ""
     }
@@ -82,7 +84,16 @@ class JSEventAPI: NSObject {
             let _ = navi.viewControllers[0] as? HomeViewController
             else { return "" }
         navi.popToRootViewController(animated: true)
+        tabbar.tabBar.isHidden = false
         return ""
+    }
+    @objc func scanner(arg: String, handler: @escaping ([String: Any], Bool) -> Void) {
+        if let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
+            let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController {
+            let vc = QRCodeViewController()
+            vc.hidesBottomBarWhenPushed = true
+            navi.pushViewController(vc, animated: true)
+        }
     }
 }
 

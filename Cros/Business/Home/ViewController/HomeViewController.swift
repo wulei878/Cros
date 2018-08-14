@@ -91,7 +91,7 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.mj_header = RefreshHeader(refreshingTarget: self, refreshingAction: #selector(refreshListData))
-        tableView.mj_footer = RefreshFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreData))
+//        tableView.mj_footer = RefreshFooter(refreshingTarget: self, refreshingAction: #selector(loadMoreData))
         tableView.tableFooterView = UIView()
         return tableView
     }
@@ -200,7 +200,6 @@ class HomeViewController: UIViewController {
             }
         }
     }
-    var page = 0
     let loginModel = LoginModel()
     var myAccountUnloginView: UnloginView?
     var mineralAccountUnloginView: UnloginView?
@@ -247,16 +246,6 @@ extension HomeViewController: UIScrollViewDelegate {
         page = [page, 0].max() ?? 0
         let newOffset = CGFloat(page) * (cellWidth + cellPadding)
         targetContentOffset.pointee.x = newOffset
-        self.page = page
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if decelerate == false {
-            currentPage = page
-        }
-    }
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentPage = page
     }
 }
@@ -305,11 +294,11 @@ extension HomeViewController: UITableViewDelegate {
             WebViewController.shard.param = data
         } else if tableView == myAccountListView {
             WebViewController.shard.url = h5BaseURL + "accountDetail"
-            let data = homeListTableViewModel.myAccount[indexPath.row]
+            var data = homeListTableViewModel.myAccount[indexPath.row]
             WebViewController.shard.param = data
         } else if tableView == mineralListView {
             WebViewController.shard.url = h5BaseURL + "accountDetail"
-            let data = homeListTableViewModel.mineralAccount[indexPath.row]
+            var data = homeListTableViewModel.mineralAccount[indexPath.row]
             WebViewController.shard.param = data
         }
         navigationController?.pushViewController(WebViewController.shard, animated: true)

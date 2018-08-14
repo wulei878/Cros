@@ -23,9 +23,9 @@ class WebViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        webview.addJavascriptObject(JSEventAPI(), namespace: nil)
         loadWebPage()
         navigationController?.isNavigationBarHidden = !showNavi
-        webview.addJavascriptObject(JSEventAPI(), namespace: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
