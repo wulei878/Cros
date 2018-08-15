@@ -286,6 +286,7 @@ extension HomeViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
         if tableView == transactionListView {
             WebViewController.shard.url = h5BaseURL + "coinDeatail"
             var data = homeListTableViewModel.myTransaction[indexPath.row]
@@ -294,11 +295,11 @@ extension HomeViewController: UITableViewDelegate {
             WebViewController.shard.param = data
         } else if tableView == myAccountListView {
             WebViewController.shard.url = h5BaseURL + "accountDetail"
-            var data = homeListTableViewModel.myAccount[indexPath.row]
+            let data = homeListTableViewModel.myAccount[indexPath.row]
             WebViewController.shard.param = data
         } else if tableView == mineralListView {
             WebViewController.shard.url = h5BaseURL + "accountDetail"
-            var data = homeListTableViewModel.mineralAccount[indexPath.row]
+            let data = homeListTableViewModel.mineralAccount[indexPath.row]
             WebViewController.shard.param = data
         }
         navigationController?.pushViewController(WebViewController.shard, animated: true)
@@ -358,6 +359,9 @@ extension HomeViewController: LoginModelDelegate {
         }
     }
     @objc func logoutSucceed() {
+        homeCollectionViewCellModels[1] = HomeCollectionCellModel.myAccount(nil)
+        homeCollectionViewCellModels[2] = HomeCollectionCellModel.mineralAccount(nil)
+        collectionView.reloadData()
         showUnloginView()
     }
 }
@@ -430,7 +434,6 @@ extension HomeViewController: HomeWalletListViewModelDelegate {
 extension HomeViewController: HomeRightDrawerDelegate {
     func homeRightDrawerCreateWallet() {
         WebViewController.shard.url = h5BaseURL+"createWallet"
-        WebViewController.shard.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(WebViewController.shard, animated: true)
     }
 

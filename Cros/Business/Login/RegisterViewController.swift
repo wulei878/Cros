@@ -373,6 +373,7 @@ extension RegisterViewController: LoginModelDelegate {
             HUD.showText(errMsg ?? "", in: view)
             return
         }
+        HUD.showTextInWindowCenter("注册成功")
         navigationController?.popToRootViewController(animated: true)
     }
 }

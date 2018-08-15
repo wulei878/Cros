@@ -16,11 +16,11 @@ class WebView: DWKWebView {
 
     init() {
         super.init(frame: .zero, configuration: WebView.getDefaultConfig())
-        customJavascriptDialogLabelTitles(["alertTitle": "Notification", "alertBtn": "OK"])
+//        customJavascriptDialogLabelTitles(["alertTitle": "Notification", "alertBtn": "OK"])
         scrollView.mj_header = RefreshHeader(refreshingBlock: {[weak self] in
             self?.reload()
         })
-        setDebugMode(true)
+//        setDebugMode(true)
     }
 
     required public init?(coder: NSCoder) {

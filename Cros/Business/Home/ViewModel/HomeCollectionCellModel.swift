@@ -51,6 +51,8 @@ class HomeCollectionCellModel {
         nf.fourDigits()
         if let totalValue = dict?["totalValue"] as? Double {
             model.accountNum = String(format: "%.4f", totalValue)
+        } else {
+            model.accountNum = "0.0000"
         }
         if let totalAvailable = dict?["totalAvailable"] as? Double {
             let value = String(format: "%.4f", totalAvailable)
@@ -75,6 +77,8 @@ class HomeCollectionCellModel {
         nf.fourDigits()
         if let totalValue = dict?["totalUsePrice"] as? Double {
             model.accountNum = String(format: "%.4f", totalValue)
+        } else {
+            model.accountNum = "0.0000"
         }
         if let totalAvailable = dict?["totalFindPrice"] as? Double {
             model.walletCode = String(format: "%.4f CROS", totalAvailable)

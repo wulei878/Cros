@@ -61,10 +61,14 @@ class JSEventAPI: NSObject {
         currentVC.present(picture, animated: true, completion: nil)
     }
     @objc func hideMenuBar(arg: String) -> String {
-        guard let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
-        let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController,
-        navi.viewControllers.count > 1 else { return "" }
-        tabbar.tabBar.isHidden = true
+        if let tabbar = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController,
+        let navi = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController {
+            if tabbar.selectedIndex != 0 {
+                tabbar.tabBar.isHidden = true
+            } else if navi.viewControllers.count > 1 {
+                tabbar.tabBar.isHidden = true
+            }
+        }
         return ""
     }
     @objc func showMenuBar(arg: String) -> String {

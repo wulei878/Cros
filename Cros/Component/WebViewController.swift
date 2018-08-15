@@ -51,7 +51,11 @@ class WebViewController: UIViewController {
     var url = ""
     var param: [String: Any]?
     var showNavi = false
-    static let shard = WebViewController()
+    static let shard: WebViewController = {
+        let vc = WebViewController()
+        vc.hidesBottomBarWhenPushed = true
+        return vc
+    }()
 }
 
 extension WebViewController: WKNavigationDelegate {

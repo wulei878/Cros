@@ -25,7 +25,7 @@ struct APIPath {
 fileprivate let isOnLine = false
 let baseURL = isOnLine ? "http://www.weibeichain.com/" : "http://120.27.234.14:8081/"
 //let h5BaseURL = "http://120.27.234.14:8081/wallet-web/#/"
-let h5BaseURL = "http://10.109.20.33:8080/#/"
+let h5BaseURL = "http://10.109.23.243:8080/#/"
 typealias CROResponse = (_ errorCode: Int, _ data: Any?) -> Void
 typealias CROResponseAndErrMsg = (_ errorCode: Int, _ data: Any?, _ errMsg: String) -> Void
 let kNoNetworkError = "网络出现问题，请稍后重试"
@@ -53,7 +53,7 @@ class CRORequest {
             switch res.result {
             case .success:
                 guard let success = data["success"] as? Bool, success, let obj = data["obj"] else {
-                    if let code = data["code"] as? String, code == "403" {
+                    if let code = data["code"] as? String, code == "403" || code == "400" {
                         UserInfo.shard.clear()
                         NotificationCenter.default.post(name: kLogoutSucceedNotification, object: nil)
                         responseWithErrMsg?(-1, nil, "登录过期，请重新登录")

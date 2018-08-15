@@ -300,6 +300,7 @@ extension ForgotPwdViewController: LoginModelDelegate {
             HUD.showText(errMsg ?? "", in: view)
             return
         }
+        HUD.showTextInWindowCenter("重置密码成功")
         navigationController?.popToRootViewController(animated: true)
     }
 }
