@@ -160,7 +160,7 @@ class PhoneLoginViewController: UIViewController {
     }
 
     @objc func gotoVerifyPhoneVC() {
-        navigationController?.pushViewController(VerifyPhoneViewController(), animated: true)
+        navigationController?.pushViewController(QuickLoginViewController(), animated: true)
     }
 
     @objc func popBack() {

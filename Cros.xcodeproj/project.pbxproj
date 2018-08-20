@@ -19,6 +19,7 @@
 		3A77E9A0211595A500C06B90 /* HomeIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E99F211595A500C06B90 /* HomeIndicatorView.swift */; };
 		3A77E9A221159AE000C06B90 /* HomeListTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */; };
 		3A77E9A421159B0B00C06B90 /* HomeListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A77E9A321159B0B00C06B90 /* HomeListTableViewCell.swift */; };
+		5A23AEF2212A9679001D412A /* QuickLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A23AEF0212A668B001D412A /* QuickLoginViewController.swift */; };
 		5A25851D21185AC40038AD5C /* HomeListTableCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A25851C21185AC40038AD5C /* HomeListTableCellModel.swift */; };
 		5A6C4996211AA02E00D66941 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C4994211AA02E00D66941 /* QRCodeViewController.swift */; };
 		5A6C4997211AA02E00D66941 /* QRcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6C4995211AA02E00D66941 /* QRcodeView.swift */; };
@@ -68,6 +69,7 @@
 		3A77E99F211595A500C06B90 /* HomeIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIndicatorView.swift; sourceTree = "<group>"; };
 		3A77E9A121159AE000C06B90 /* HomeListTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListTableViewModel.swift; sourceTree = "<group>"; };
 		3A77E9A321159B0B00C06B90 /* HomeListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListTableViewCell.swift; sourceTree = "<group>"; };
+		5A23AEF0212A668B001D412A /* QuickLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLoginViewController.swift; sourceTree = "<group>"; };
 		5A25851C21185AC40038AD5C /* HomeListTableCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListTableCellModel.swift; sourceTree = "<group>"; };
 		5A6C4994211AA02E00D66941 /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		5A6C4995211AA02E00D66941 /* QRcodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRcodeView.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				3A77E9992113750700C06B90 /* VerifyPhoneViewController.swift */,
 				3A77E99B211378A000C06B90 /* VerifyCodeViewController.swift */,
 				5AD9AC022117068C00BB5AAA /* LoginModel.swift */,
+				5A23AEF0212A668B001D412A /* QuickLoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 				5AF592D021115425005C9F3E /* HomeViewController.swift in Sources */,
 				5AF592D521115BD3005C9F3E /* PhoneLoginViewController.swift in Sources */,
 				5A6C499E211AEEFA00D66941 /* JSEventAPI.swift in Sources */,
+				5A23AEF2212A9679001D412A /* QuickLoginViewController.swift in Sources */,
 				3A64B68521160E5E00AFAAF6 /* NewsViewController.swift in Sources */,
 				3A77E99821136F4600C06B90 /* ForgotPwdViewController.swift in Sources */,
 				5AF592CF21115425005C9F3E /* HomeCollectionView.swift in Sources */,
@@ -652,8 +656,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Cros/Cros.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D7LP79ESSD;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 52C4UYZ32Z;
 				INFOPLIST_FILE = Cros/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -662,7 +666,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.coin.wallet.Cros;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "434ecf67-0eda-42e8-9e0e-3e3cbc4ecd90";
+				PROVISIONING_PROFILE_SPECIFIER = All_Dev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Cros/Cros-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -678,8 +683,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Cros/Cros.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D7LP79ESSD;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Cros/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
